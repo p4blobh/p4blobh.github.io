@@ -8,13 +8,16 @@ Screen_height = 600
 screen = pygame.display.set_mode((Screen_width, Screen_height))
 pygame.display.set_caption('Pie-Clicker')
 
+icon_image = pygame.image.load(r"PieClicker/images/PieClicker_logo.png")
+pygame.display.set_icon(icon_image)
+
 run = True
 
 
 #-------------------------------
 #------- Clicker Setup --------#
 #-------------------------------
-applepie = r"images/apple_pie1.png"
+applepie = r"PieClicker/images/applepie1.png"
 pie_tier = [applepie]
 current_tier = 0
 class Game:
