@@ -9,10 +9,10 @@ Screen_height = 600
 screen = pygame.display.set_mode((Screen_width, Screen_height))
 pygame.display.set_caption('Pie-Clicker')
 
-icon_image = pygame.image.load(r"PieClicker/assets/PieClicker_logo.png")
+icon_image = pygame.image.load(r"./PieClicker/assets/PieClicker_logo.png")
 pygame.display.set_icon(icon_image)
 
-run = True
+
 
 #-------------------------------
 #----------- Fonts ------------#
@@ -24,9 +24,9 @@ upgradefont = pygame.font.SysFont('Comic Sans MS', 14)
 #-------------------------------
 #----------- Images -----------#
 #-------------------------------
-applepie = r"PieClicker/assets/applepie1.png"
-peachpie = r"PieClicker/assets/peachpie1.png"
-cursorimg = r"PieClicker/assets/cursor.png"
+applepie = r"./PieClicker/assets/applepie1.png"
+peachpie = r"./PieClicker/assets/peachpie1.png"
+cursorimg = r"./PieClicker/assets/cursor.png"
 
 
 #-------------------------------
@@ -130,7 +130,9 @@ piespersectxt = mainfont.render('Pies/Sec: {0}'.format(game.pies_per_second), Tr
 #-------------------------------
 #---------- The Game ----------#
 #-------------------------------
+
 async def main():
+    run = True
     while run:
     
         screen.fill ((255,255,255))
