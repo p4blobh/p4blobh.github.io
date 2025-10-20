@@ -25,8 +25,8 @@ upgradefont = pygame.font.SysFont('Comic Sans MS', 14)
 #----------- Images -----------#
 #-------------------------------
 applepie = r"applepie1.png"
-peachpie = r".peachpie1.png"
-cursorimg = r".cursor.png"
+peachpie = r"peachpie1.png"
+cursorimg = r"cursor.png"
 
 
 #-------------------------------
