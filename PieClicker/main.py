@@ -1,6 +1,4 @@
 import pygame
-from sys import exit
-import asyncio
 
 pygame.init()
 
@@ -10,25 +8,79 @@ Screen_height = 600
 screen = pygame.display.set_mode((Screen_width, Screen_height))
 pygame.display.set_caption('Pie-Clicker')
 
+icon_image = pygame.image.load(r"PieClicker/images/PieClicker_logo.png")
+pygame.display.set_icon(icon_image)
+
 run = True
+
+#-------------------------------
+#----------- Fonts ------------#
+#-------------------------------
+titlefont = pygame.font.SysFont('Comic Sans MS', 50)
+mainfont = pygame.font.SysFont('Comic Sans MS', 30)
+upgradefont = pygame.font.SysFont('Comic Sans MS', 14)
+
+#-------------------------------
+#----------- Images -----------#
+#-------------------------------
+applepie = r"PieClicker/images/applepie1.png"
+peachpie = r"PieClicker/images/peachpie1.png"
+cursorimg = r"PieClicker/images/cursor.png"
 
 
 #-------------------------------
 #------- Clicker Setup --------#
 #-------------------------------
-applepie = r"images/apple_pie1.png"
-pie_tier = [applepie]
-current_tier = 0
+
+pie_tiers = [applepie, peachpie]
+
+pie_loct = (120,200)
+
 class Game:
     def __init__(self):
         self.pies = 0
         self.pies_per_click = 1
         self.pies_per_second = 0
-        self.pie = pygame.image.load(pie_tier[current_tier])
         self.clicked = False
 
+        #Upgrade stuff that don't need to keep rendering
+
+        #Cursor Upgrade
+        self.clickupgradeBtn = pygame.Rect(510, 70, 280, 70)
+        self.clickupgradedesc = upgradefont.render('Cursor: Pies per click +1', True, (0,0,0))
+        self.clickupgradecost = 10
+
+
+        self.click
+    def upgrades(self):
+            pygame.draw.rect(screen, (9, 146, 214), (500,0,300,600))
+
+            #Cursor Upgrade
+            self.clickupgradeshowcost = upgradefont.render(f'Cost: {self.clickupgradecost}', True, (0,0,0))
+            pygame.draw.rect(screen, (9, 101, 214), self.clickupgradeBtn, border_radius=5)
+            screen.blit(self.clickupgradeshowcost, (580, 110))
+            screen.blit(self.clickupgradedesc, (580, 80))
+            cursorimgload = pygame.image.load(cursorimg)
+            cursorimgresize = pygame.transform.scale(cursorimgload, (30, 60))
+            cursorimgbg = cursorimgresize.convert_alpha()  
+            pygame.draw.rect(screen, (9, 80, 214),(520,75,50,60),border_radius=7)
+            screen.blit(cursorimgbg, (530,75))
+
+
+
+
+            # Next Upgrade Here
+    def pietier(self):
+        
+        if self.pies <= 20: #Tier 1 - Apple
+            current_tier = 0
+        if self.pies >= 20: #Tier 2 - Peach for now
+            current_tier = 1
+        
+        self.pie = pygame.transform.scale(pygame.image.load(pie_tiers[current_tier]), (300, 150))
+        screen.blit(self.pie,(pie_loct))
     def click(self):
-        pie_loct = (70,200)
+        
         self.mouse_pos = pygame.mouse.get_pos()
         if self.pie.get_rect(topleft=(pie_loct)).collidepoint(self.mouse_pos):
             if pygame.mouse.get_pressed()[0]:
@@ -37,10 +89,23 @@ class Game:
              if self.clicked:
                 self.pies += self.pies_per_click
                 self.clicked = False
-        screen.blit(self.pie,(pie_loct))
-    def upgrades(self):
-        pass
+        if self.clickupgradeBtn.collidepoint(self.mouse_pos):
+            if pygame.mouse.get_pressed()[0]:
+                self.clicked = True
+            else:
+                if self.clicked:
+                    if self.pies >= self.clickupgradecost:
+                        self.pies -= self.clickupgradecost
+                        self.pies_per_click += 1
+                        self.clickupgradecost = int(self.clickupgradecost * 1.5)
+                    self.clicked = False
+
+        
+
+    
+
     def render(self):
+        self.pietier()
         self.click()
         self.upgrades()
         
@@ -54,37 +119,41 @@ game = Game()
 #-------------------------------
 #----------- Text -------------#
 #-------------------------------
-titlefont = pygame.font.SysFont('Comic Sans MS', 50)
-font = pygame.font.SysFont('Comic Sans MS', 30)
 
 titletext = titlefont.render('Pie-Clicker', True, (0, 0, 0))
-piestxt = font.render('Pies: {0}'.format(game.pies), True, (0, 0, 0))
+piestxt = mainfont.render('Pies: {0}'.format(game.pies), True, (0, 0, 0))
+piesperclicktxt = mainfont.render('Pies/Click: {0}'.format(game.pies_per_click), True, (0, 0, 0))
+piespersectxt = mainfont.render('Pies/Sec: {0}'.format(game.pies_per_second), True, (0, 0, 0))
 
-#-------------------------------xx
+
+#-------------------------------
 #---------- The Game ----------#
 #-------------------------------
-async def main():
-    while run:
+
+while run:
+   
+    screen.fill ((255,255,255))
+    screen.blit(titletext, (120,50))
     
-        screen.fill ((255,255,255))
-        screen.blit(titletext, (100,50))
-        
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-        
-        piestxt = font.render('Pies: {0}'.format(game.pies), True, (0, 0, 0))
-        screen.blit(piestxt, (150,350))
-        pygame.draw.rect(screen, (0,10,200), (500,0,300,600))
-        game.render()    
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = False
+    
+    piestxt = mainfont.render('Pies: {:.0f}'.format(game.pies), True, (0, 0, 0))
+    piesperclicktxt = mainfont.render('Pies/Click: {0}'.format(game.pies_per_click), True, (0, 0, 0))
+    piespersectxt = mainfont.render('Pies/Sec: {0}'.format(game.pies_per_second), True, (0, 0, 0))
+    screen.blit(piestxt, (150,350))
+    screen.blit(piesperclicktxt, (150,400))
+    screen.blit(piespersectxt, (150,450))
+    
+    game.pies += game.pies_per_second / 60  
+    game.render()    
 
-        pygame.display.update()
+    pygame.display.update()
 
-        clock.tick(60)
-        await asyncio.sleep(0)
-        
-asyncio.run(main())
+    clock.tick(60)
+    
+pygame.quit()
 
 
 
