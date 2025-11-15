@@ -176,7 +176,7 @@ async def main():
                     nametyping=True
                     
                     
-        while nametyping==True:
+        if nametyping==True:
             screen.blit(overlay, (0, 0))
             typename = titlefont.render('ENTER YOUR INITIALS:\n'+ username, True, (0,0,0))
             screen.blit(typename, (350, 200))
@@ -194,9 +194,7 @@ async def main():
             if len(username) == 3:
                 entersubmit = mainfont.render("PRESS ENTER TO SUBMIT", True,(0,0,0))
                 screen.blit(entersubmit, (350, 450))
-            pygame.display.update()
-            await asyncio.sleep(0)  
-            clock.tick(60)
+    
 
         piestxt = mainfont.render('Pies: {:.0f}'.format(game.pies), True, (0, 0, 0))
         piesperclicktxt = mainfont.render('Pies/Click: {0}'.format(game.pies_per_click), True, (0, 0, 0))
