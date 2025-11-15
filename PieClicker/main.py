@@ -138,6 +138,8 @@ async def main():
     
     run = True
     nametyping=False
+    username=""
+
     while run:
     
         screen.fill ((255,255,255))
@@ -154,27 +156,26 @@ async def main():
         wrecord= open("highscore.txt", "r").read()
         
         worldrecordpiestext = smallerfont.render('World Record Pies: {:.0f}'.format(int(wrecord[:-5])), True, (0, 0, 0))
-        screen.blit(worldrecordpiestext, (20,550))
+        screen.blit(worldrecordpiestext, (20,530))
         
         
         if game.mostpies> int(wrecord[:-5]):
-            submitrecordBtn = pygame.Rect(10, 580, 280, 50)
+            submitrecordBtn = pygame.Rect(10, 560, 280, 50)
             submitrecordtxt = smallerfont.render('Submit Your Record', True, (255, 255, 255))
-            screen.blit(submitrecordtxt, (20, 590))
+            screen.blit(submitrecordtxt, (20, 570))
             pygame.draw.rect(screen, (9, 80, 214), submitrecordBtn, border_radius=5)
 
             mouse_pos = pygame.mouse.get_pos()
             if submitrecordBtn.collidepoint(mouse_pos):
                 if pygame.mouse.get_pressed()[0]:
                     nametyping=True
-                    pass
-                    if game.mostpies > int(wrecord[:-5]):
-                        open("highscore.txt", "w").write(str(game.mostpies)+" - "+username)
+                    
             if nametyping:
                 if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_RETURN:
                             if len(username) == 3:
                                 nametyping=False
+                                open("highscore.txt", "w").write(str(game.mostpies)+" - "+username)
                         elif event.key == pygame.K_BACKSPACE:
                             username = username[:-1] 
                         elif len(username) < 3 and event.unicode.isalpha():
@@ -185,8 +186,7 @@ async def main():
         piestxt = mainfont.render('Pies: {:.0f}'.format(game.pies), True, (0, 0, 0))
         piesperclicktxt = mainfont.render('Pies/Click: {0}'.format(game.pies_per_click), True, (0, 0, 0))
         piespersectxt = mainfont.render('Pies/Sec: {0}'.format(game.pies_per_second), True, (0, 0, 0))
-        testtxt = mainfont.render(wrecord[:-5], True, (0, 0, 0))
-        screen.blit(testtxt, (20,520))
+        
         screen.blit(recordpiestxt, (180,130))
         screen.blit(piestxt, (150,350))
         screen.blit(piesperclicktxt, (150,400))
