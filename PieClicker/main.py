@@ -156,11 +156,12 @@ async def main():
         worldrecordpiestext = smallerfont.render('World Record Pies: {:.0f}'.format(int(wrecord[:-5])), True, (0, 0, 0))
         screen.blit(worldrecordpiestext, (20,550))
         
-        pygame.draw.rect(screen, (9, 80, 214), submitrecordBtn, border_radius=5)
+        
         if game.mostpies> int(wrecord[:-5]):
             submitrecordBtn = pygame.Rect(10, 580, 280, 50)
             submitrecordtxt = smallerfont.render('Submit Your Record', True, (255, 255, 255))
             screen.blit(submitrecordtxt, (20, 590))
+            pygame.draw.rect(screen, (9, 80, 214), submitrecordBtn, border_radius=5)
 
             mouse_pos = pygame.mouse.get_pos()
             if submitrecordBtn.collidepoint(mouse_pos):
