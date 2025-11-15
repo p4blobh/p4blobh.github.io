@@ -153,6 +153,19 @@ async def main():
             if event.type == pygame.QUIT:
                 run = False
         
+        if nametyping == True:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    if len(username) == 3:
+                        nametyping=False
+                        open("highscore.txt", "w").write(str(game.mostpies)+" - "+username)
+                elif event.key == pygame.K_BACKSPACE:
+                        username = username[:-1] 
+                elif len(username) < 3 and event.unicode.isalpha():
+                        username += event.unicode.upper()
+                if event.key == pygame.K_ESCAPE:
+                    nametyping=False
+
         if game.pies > game.mostpies:
             game.mostpies = game.pies
         
@@ -199,20 +212,7 @@ async def main():
             username_display = titlefont.render(username, True, (255,255,255))
             screen.blit(username_display, (380, 300))
             screen.blit(typename, (300, 200))
-            print(event)
-            print(event.type)
-            print("------")
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
-                    if len(username) == 3:
-                        nametyping=False
-                        open("highscore.txt", "w").write(str(game.mostpies)+" - "+username)
-                elif event.key == pygame.K_BACKSPACE:
-                        username = username[:-1] 
-                elif len(username) < 3 and event.unicode.isalpha():
-                        username += event.unicode.upper()
-                if event.key == pygame.K_ESCAPE:
-                    nametyping=False
+           
             if len(username) == 3:
                 entersubmit = mainfont.render("PRESS ENTER TO SUBMIT", True,(255,255,255))
                 screen.blit(entersubmit, (300, 450))
