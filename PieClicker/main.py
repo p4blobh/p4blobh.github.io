@@ -154,30 +154,31 @@ async def main():
         wrecord= open("highscore.txt", "r").read()
         
         worldrecordpiestext = smallerfont.render('World Record Pies: {:.0f}'.format(int(wrecord[:-5])), True, (0, 0, 0))
-        screen.blit(worldrecordpiestext, (450,10))
+        screen.blit(worldrecordpiestext, (20,550))
         submitrecordBtn = pygame.Rect(450, 130, 280, 50)
         pygame.draw.rect(screen, (9, 80, 214), submitrecordBtn, border_radius=5)
-        submitrecordtxt = smallerfont.render('Submit Your Record', True, (255, 255, 255))
-        screen.blit(submitrecordtxt, (475, 145))
+        if game.mostpies> int(wrecord[:-5]):
+            submitrecordtxt = smallerfont.render('Submit Your Record', True, (255, 255, 255))
+            screen.blit(submitrecordtxt, (20, 590))
 
-        mouse_pos = pygame.mouse.get_pos()
-        if submitrecordBtn.collidepoint(mouse_pos):
-            if pygame.mouse.get_pressed()[0]:
-                nametyping=True
-                pass
-                if game.mostpies > int(wrecord[:-5]):
-                    open("highscore.txt", "w").write(str(game.mostpies)+" - "+username)
-        if nametyping:
-            if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RETURN:
-                        if len(username) == 3:
-                            nametyping=False
-                    elif event.key == pygame.K_BACKSPACE:
-                        username = username[:-1] 
-                    elif len(username) < 3 and event.unicode.isalpha():
-                        username += event.unicode.upper()
-            if len(username) == 3:
-                pygame.draw_text("PRESS ENTER TO SUBMIT", smallerfont,(255,255,255),400, 200)
+            mouse_pos = pygame.mouse.get_pos()
+            if submitrecordBtn.collidepoint(mouse_pos):
+                if pygame.mouse.get_pressed()[0]:
+                    nametyping=True
+                    pass
+                    if game.mostpies > int(wrecord[:-5]):
+                        open("highscore.txt", "w").write(str(game.mostpies)+" - "+username)
+            if nametyping:
+                if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_RETURN:
+                            if len(username) == 3:
+                                nametyping=False
+                        elif event.key == pygame.K_BACKSPACE:
+                            username = username[:-1] 
+                        elif len(username) < 3 and event.unicode.isalpha():
+                            username += event.unicode.upper()
+                if len(username) == 3:
+                    pygame.draw_text("PRESS ENTER TO SUBMIT", smallerfont,(255,255,255),400, 200)
 
         piestxt = mainfont.render('Pies: {:.0f}'.format(game.pies), True, (0, 0, 0))
         piesperclicktxt = mainfont.render('Pies/Click: {0}'.format(game.pies_per_click), True, (0, 0, 0))
