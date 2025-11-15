@@ -172,7 +172,8 @@ async def main():
                     nametyping=True
                     
             if nametyping:
-                typename = pygame.draw_text("ENTER YOUR INITIALS: "+username, smallerfont,(0,0,0),(20, 250))
+                typename = mainfont.render('ENTER YOUR INITIALS:', True, (0,0,0))
+                screen.blit(typename, (20, 200))
                 if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_RETURN:
                             if len(username) == 3:
@@ -183,7 +184,8 @@ async def main():
                         elif len(username) < 3 and event.unicode.isalpha():
                             username += event.unicode.upper()
                 if len(username) == 3:
-                    entersubmit = pygame.draw_text("PRESS ENTER TO SUBMIT", smallerfont,(0,0,0),(20, 300))
+                    entersubmit = mainfont.render("PRESS ENTER TO SUBMIT", True,(0,0,0))
+                    screen.blit(entersubmit, (20, 250))
 
         piestxt = mainfont.render('Pies: {:.0f}'.format(game.pies), True, (0, 0, 0))
         piesperclicktxt = mainfont.render('Pies/Click: {0}'.format(game.pies_per_click), True, (0, 0, 0))
