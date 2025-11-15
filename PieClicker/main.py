@@ -155,9 +155,10 @@ async def main():
         
         worldrecordpiestext = smallerfont.render('World Record Pies: {:.0f}'.format(int(wrecord[:-5])), True, (0, 0, 0))
         screen.blit(worldrecordpiestext, (20,550))
-        submitrecordBtn = pygame.Rect(450, 130, 280, 50)
+        
         pygame.draw.rect(screen, (9, 80, 214), submitrecordBtn, border_radius=5)
         if game.mostpies> int(wrecord[:-5]):
+            submitrecordBtn = pygame.Rect(10, 580, 280, 50)
             submitrecordtxt = smallerfont.render('Submit Your Record', True, (255, 255, 255))
             screen.blit(submitrecordtxt, (20, 590))
 
@@ -183,7 +184,8 @@ async def main():
         piestxt = mainfont.render('Pies: {:.0f}'.format(game.pies), True, (0, 0, 0))
         piesperclicktxt = mainfont.render('Pies/Click: {0}'.format(game.pies_per_click), True, (0, 0, 0))
         piespersectxt = mainfont.render('Pies/Sec: {0}'.format(game.pies_per_second), True, (0, 0, 0))
-        
+        testtxt = mainfont.render(wrecord[:-5], True, (0, 0, 0))
+        screen.blit(testtxt, (20,520))
         screen.blit(recordpiestxt, (180,130))
         screen.blit(piestxt, (150,350))
         screen.blit(piesperclicktxt, (150,400))
