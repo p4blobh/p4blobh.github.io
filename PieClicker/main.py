@@ -151,7 +151,7 @@ async def main():
             game.mostpies = game.pies
         
         recordpiestxt = smallerfont.render('Your Record Pies: {:.0f}'.format(game.mostpies), True, (0, 0, 0))
-        wrecord= open("worldrecord.txt", "r").read()
+        wrecord= open("highscore.txt", "r").read()
         
         worldrecordpiestext = smallerfont.render('World Record Pies: {:.0f}'.format(wrecord), True, (0, 0, 0))
         screen.blit(worldrecordpiestext, (450,10))
@@ -166,7 +166,7 @@ async def main():
                 nametyping=True
                 pass
                 if game.mostpies > float(wrecord[:-5]):
-                    open("worldrecord.txt", "w").write(str(game.mostpies)+" - "+username)
+                    open("highscore.txt", "w").write(str(game.mostpies)+" - "+username)
         if nametyping:
             if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
