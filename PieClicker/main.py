@@ -113,32 +113,9 @@ class Game:
         self.upgrades()
         
 
-def enterrecord():
-    global username
-    global nametyping
-    overlay = pygame.Surface((600, 800), pygame.SRCALPHA)
-    overlay.fill((0, 0, 0, 160))
-
-    username=""
-    while nametyping==True:
-        screen.blit(overlay, (0, 0))
-        typename = titlefont.render('ENTER YOUR INITIALS:\n'+ username, True, (0,0,0))
-        screen.blit(typename, (350, 200))
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RETURN:
-                if len(username) == 3:
-                    nametyping=False
-                    open("highscore.txt", "w").write(str(game.mostpies)+" - "+username)
-            elif event.key == pygame.K_BACKSPACE:
-                    username = username[:-1] 
-            elif len(username) < 3 and event.unicode.isalpha():
-                    username += event.unicode.upper()
-            if len(username) == 3:
-                entersubmit = mainfont.render("PRESS ENTER TO SUBMIT", True,(0,0,0))
-                screen.blit(entersubmit, (350, 450))
-            if event.key == pygame.K_ESCAPE:
-                nametyping=False
-
+    
+overlay = pygame.Surface((600, 800), pygame.SRCALPHA)
+overlay.fill((0, 0, 0, 160))
 
 clock = pygame.time.Clock()
 game = Game()
@@ -164,6 +141,7 @@ async def main():
 
     run = True
     nametyping=False
+    username = ""
     
 
     while run:
@@ -197,8 +175,28 @@ async def main():
                 if pygame.mouse.get_pressed()[0]:
                     nametyping=True
                     
-            if nametyping==True:
-                enterrecord()
+                    
+        while nametyping==True:
+            screen.blit(overlay, (0, 0))
+            typename = titlefont.render('ENTER YOUR INITIALS:\n'+ username, True, (0,0,0))
+            screen.blit(typename, (350, 200))
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    if len(username) == 3:
+                        nametyping=False
+                        open("highscore.txt", "w").write(str(game.mostpies)+" - "+username)
+                elif event.key == pygame.K_BACKSPACE:
+                        username = username[:-1] 
+                elif len(username) < 3 and event.unicode.isalpha():
+                        username += event.unicode.upper()
+                if event.key == pygame.K_ESCAPE:
+                    nametyping=False
+            if len(username) == 3:
+                entersubmit = mainfont.render("PRESS ENTER TO SUBMIT", True,(0,0,0))
+                screen.blit(entersubmit, (350, 450))
+            pygame.display.update()
+            await asyncio.sleep(0)  
+            clock.tick(60)
 
         piestxt = mainfont.render('Pies: {:.0f}'.format(game.pies), True, (0, 0, 0))
         piesperclicktxt = mainfont.render('Pies/Click: {0}'.format(game.pies_per_click), True, (0, 0, 0))
