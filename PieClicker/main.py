@@ -160,7 +160,7 @@ async def main():
         
         
         if game.mostpies> int(wrecord[:-5]):
-            submitrecordBtn = pygame.Rect(10, 560, 280, 50)
+            submitrecordBtn = pygame.Rect(10, 550, 200, 30)
             submitrecordtxt = smallerfont.render('Submit Your Record', True, (255, 255, 255))
             screen.blit(submitrecordtxt, (20, 570))
             pygame.draw.rect(screen, (9, 80, 214), submitrecordBtn, border_radius=5)
@@ -181,7 +181,7 @@ async def main():
                         elif len(username) < 3 and event.unicode.isalpha():
                             username += event.unicode.upper()
                 if len(username) == 3:
-                    pygame.draw_text("PRESS ENTER TO SUBMIT", smallerfont,(255,255,255),400, 200)
+                    pygame.draw_text("PRESS ENTER TO SUBMIT", smallerfont,(255,255,255),(20, 300))
 
         piestxt = mainfont.render('Pies: {:.0f}'.format(game.pies), True, (0, 0, 0))
         piesperclicktxt = mainfont.render('Pies/Click: {0}'.format(game.pies_per_click), True, (0, 0, 0))
