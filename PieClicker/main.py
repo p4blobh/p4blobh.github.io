@@ -116,6 +116,8 @@ class Game:
 def enterrecord():
     global username
     global event
+    username=""
+    
     typename = mainfont.render('ENTER YOUR INITIALS:'+ username, True, (0,0,0))
     screen.blit(typename, (20, 500))
     if event.type == pygame.KEYDOWN:
@@ -154,7 +156,7 @@ async def main():
     
     run = True
     nametyping=False
-    username=""
+    
 
     while run:
     
