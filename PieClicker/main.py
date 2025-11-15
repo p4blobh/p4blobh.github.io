@@ -115,9 +115,8 @@ class Game:
 
 def enterrecord():
     global username
-    global event
     username=""
-    
+
     typename = mainfont.render('ENTER YOUR INITIALS:'+ username, True, (0,0,0))
     screen.blit(typename, (20, 500))
     if event.type == pygame.KEYDOWN:
@@ -153,7 +152,8 @@ recordpiestxt = smallerfont.render('Most Pies: {0}'.format(game.mostpies), True,
 #-------------------------------
 
 async def main():
-    
+    global event
+
     run = True
     nametyping=False
     
