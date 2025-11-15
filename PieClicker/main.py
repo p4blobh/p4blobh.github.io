@@ -114,8 +114,8 @@ class Game:
         
 
     
-overlay = pygame.Surface((600, 800), pygame.SRCALPHA)
-overlay.fill((0, 0, 0, 200))
+overlay = pygame.Surface((800, 600), pygame.SRCALPHA)
+overlay.fill((0, 0, 0, 230))
 
 clock = pygame.time.Clock()
 game = Game()
@@ -194,8 +194,10 @@ async def main():
 
         if nametyping==True:
             screen.blit(overlay, (0, 0))
-            typename = titlefont.render('ENTER YOUR INITIALS:\n'+ username, True, (0,0,0))
-            screen.blit(typename, (350, 200))
+            typename = titlefont.render('ENTER YOUR INITIALS:', True, (255,255,255))
+            username_display = mainfont.render(username, True, (255,255,255))
+            screen.blit(username_display, (350, 300))
+            screen.blit(typename, (300, 200))
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     if len(username) == 3:
@@ -208,8 +210,8 @@ async def main():
                 if event.key == pygame.K_ESCAPE:
                     nametyping=False
             if len(username) == 3:
-                entersubmit = mainfont.render("PRESS ENTER TO SUBMIT", True,(0,0,0))
-                screen.blit(entersubmit, (350, 450))
+                entersubmit = mainfont.render("PRESS ENTER TO SUBMIT", True,(255,255,255))
+                screen.blit(entersubmit, (300, 450))
 
         pygame.display.update()
         await asyncio.sleep(0)  
