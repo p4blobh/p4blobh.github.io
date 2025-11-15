@@ -155,6 +155,7 @@ async def main():
         
         
         if event.type == pygame.KEYDOWN and nametyping:
+            print("Key pressed")
             if event.key == pygame.K_RETURN:
                 if len(username) == 3:
                     nametyping=False
@@ -162,6 +163,7 @@ async def main():
             elif event.key == pygame.K_BACKSPACE:
                     username = username[:-1] 
             elif len(username) < 3 and event.unicode.isalpha():
+                    print("Adding letter")
                     username += event.unicode.upper()
             if event.key == pygame.K_ESCAPE:
                 nametyping=False
