@@ -153,7 +153,7 @@ async def main():
         recordpiestxt = smallerfont.render('Your Record Pies: {:.0f}'.format(game.mostpies), True, (0, 0, 0))
         wrecord= open("highscore.txt", "r").read()
         
-        worldrecordpiestext = smallerfont.render('World Record Pies: {:.0f}'.format(wrecord), True, (0, 0, 0))
+        worldrecordpiestext = smallerfont.render('World Record Pies: {:.0f}'.format(int(wrecord[:-5])), True, (0, 0, 0))
         screen.blit(worldrecordpiestext, (450,10))
         submitrecordBtn = pygame.Rect(450, 130, 280, 50)
         pygame.draw.rect(screen, (9, 80, 214), submitrecordBtn, border_radius=5)
@@ -165,7 +165,7 @@ async def main():
             if pygame.mouse.get_pressed()[0]:
                 nametyping=True
                 pass
-                if game.mostpies > float(wrecord[:-5]):
+                if game.mostpies > int(wrecord[:-5]):
                     open("highscore.txt", "w").write(str(game.mostpies)+" - "+username)
         if nametyping:
             if event.type == pygame.KEYDOWN:
