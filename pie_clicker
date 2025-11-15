@@ -158,7 +158,7 @@ async def main():
         submitrecordBtn = pygame.Rect(450, 130, 280, 50)
         pygame.draw.rect(screen, (9, 80, 214), submitrecordBtn, border_radius=5)
         submitrecordtxt = smallerfont.render('Submit Your Record', True, (255, 255, 255))
-        screen.blit(submitrecordtxt, (475, 145))
+        screen.blit(submitrecordtxt, (475, 120))
 
         mouse_pos = pygame.mouse.get_pos()
         if submitrecordBtn.collidepoint(mouse_pos):
