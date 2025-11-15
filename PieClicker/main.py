@@ -196,10 +196,11 @@ async def main():
         if nametyping==True:
             screen.blit(overlay, (0, 0))
             typename = titlefont.render('ENTER YOUR INITIALS:', True, (255,255,255))
-            username_display = mainfont.render(username, True, (255,255,255))
-            screen.blit(username_display, (350, 300))
+            username_display = titlefont.render(username, True, (255,255,255))
+            screen.blit(username_display, (380, 300))
             screen.blit(typename, (300, 200))
             for event in pygame.event.get():
+                print(event)
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
                         if len(username) == 3:
