@@ -19,6 +19,7 @@ pygame.display.set_icon(icon_image)
 #-------------------------------
 titlefont = pygame.font.SysFont('Comic Sans MS', 50)
 mainfont = pygame.font.SysFont('Comic Sans MS', 30)
+smallerfont = pygame.font.SysFont('Comic Sans MS', 20)
 upgradefont = pygame.font.SysFont('Comic Sans MS', 14)
 
 #-------------------------------
@@ -40,6 +41,7 @@ pie_loct = (120,200)
 class Game:
     def __init__(self):
         self.pies = 0
+        self.mostpies = 0
         self.pies_per_click = 1
         self.pies_per_second = 0
         self.clicked = False
@@ -52,7 +54,7 @@ class Game:
         self.clickupgradecost = 10
 
 
-        self.click
+        
     def upgrades(self):
             pygame.draw.rect(screen, (9, 146, 214), (500,0,300,600))
 
@@ -125,6 +127,7 @@ titletext = titlefont.render('Pie-Clicker', True, (0, 0, 0))
 piestxt = mainfont.render('Pies: {0}'.format(game.pies), True, (0, 0, 0))
 piesperclicktxt = mainfont.render('Pies/Click: {0}'.format(game.pies_per_click), True, (0, 0, 0))
 piespersectxt = mainfont.render('Pies/Sec: {0}'.format(game.pies_per_second), True, (0, 0, 0))
+recordpiestxt = smallerfont.render('Most Pies: {0}'.format(game.mostpies), True, (0, 0, 0))
 
 
 #-------------------------------
@@ -132,7 +135,9 @@ piespersectxt = mainfont.render('Pies/Sec: {0}'.format(game.pies_per_second), Tr
 #-------------------------------
 
 async def main():
+    
     run = True
+    nametyping=False
     while run:
     
         screen.fill ((255,255,255))
@@ -142,12 +147,47 @@ async def main():
             if event.type == pygame.QUIT:
                 run = False
         
+        if game.pies > game.mostpies:
+            game.mostpies = game.pies
+        
+        recordpiestxt = smallerfont.render('Your Record Pies: {:.0f}'.format(game.mostpies), True, (0, 0, 0))
+        wrecord= open("worldrecord.txt", "r").read()
+        
+        worldrecordpiestext = smallerfont.render('World Record Pies: {:.0f}'.format(wrecord), True, (0, 0, 0))
+        screen.blit(worldrecordpiestext, (450,10))
+        submitrecordBtn = pygame.Rect(450, 130, 280, 50)
+        pygame.draw.rect(screen, (9, 80, 214), submitrecordBtn, border_radius=5)
+        submitrecordtxt = smallerfont.render('Submit Your Record', True, (255, 255, 255))
+        screen.blit(submitrecordtxt, (475, 145))
+
+        mouse_pos = pygame.mouse.get_pos()
+        if submitrecordBtn.collidepoint(mouse_pos):
+            if pygame.mouse.get_pressed()[0]:
+                nametyping=True
+                pass
+                if game.mostpies > float(wrecord[:-5]):
+                    open("worldrecord.txt", "w").write(str(game.mostpies)+" - "+username)
+        if nametyping:
+            if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:
+                        if len(username) == 3:
+                            nametyping=False
+                    elif event.key == pygame.K_BACKSPACE:
+                        username = username[:-1] 
+                    elif len(username) < 3 and event.unicode.isalpha():
+                        username += event.unicode.upper()
+            if len(username) == 3:
+                pygame.draw_text("PRESS ENTER TO SUBMIT", smallerfont,(255,255,255),400, 200)
+
         piestxt = mainfont.render('Pies: {:.0f}'.format(game.pies), True, (0, 0, 0))
         piesperclicktxt = mainfont.render('Pies/Click: {0}'.format(game.pies_per_click), True, (0, 0, 0))
         piespersectxt = mainfont.render('Pies/Sec: {0}'.format(game.pies_per_second), True, (0, 0, 0))
+        
+        screen.blit(recordpiestxt, (180,130))
         screen.blit(piestxt, (150,350))
         screen.blit(piesperclicktxt, (150,400))
         screen.blit(piespersectxt, (150,450))
+        
         
         game.pies += game.pies_per_second / 60  
         game.render()    
