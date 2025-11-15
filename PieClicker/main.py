@@ -115,11 +115,12 @@ class Game:
 
 def enterrecord():
     global username
+    global nametyping
     overlay = pygame.Surface((600, 800), pygame.SRCALPHA)
     overlay.fill((0, 0, 0, 160))
 
     username=""
-    while nametyping:
+    while nametyping==True:
         screen.blit(overlay, (0, 0))
         typename = titlefont.render('ENTER YOUR INITIALS:\n'+ username, True, (0,0,0))
         screen.blit(typename, (350, 200))
@@ -196,7 +197,7 @@ async def main():
                 if pygame.mouse.get_pressed()[0]:
                     nametyping=True
                     
-            if nametyping:
+            if nametyping==True:
                 enterrecord()
 
         piestxt = mainfont.render('Pies: {:.0f}'.format(game.pies), True, (0, 0, 0))
