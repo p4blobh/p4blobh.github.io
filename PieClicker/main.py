@@ -20,7 +20,7 @@ pygame.display.set_icon(icon_image)
 #-------------------------------
 comicsans = "assets/ComicSansMS.ttf"
 
-titlefont = pygame.font.SysFont("Comic Sans MS", 50)
+titlefont = pygame.font.Font(comicsans, 50)
 mainfont = pygame.font.Font(comicsans, 30)
 smallerfont = pygame.font.Font(comicsans, 20)
 upgradefont = pygame.font.Font(comicsans, 14)
@@ -284,11 +284,11 @@ async def main():
             username_display = titlefont.render(username, True, (255,255,255))
 
             screen.blit(overlay, (0, 0))
-            screen.blit(username_display, (390, 300))
-            screen.blit(typename, (200, 200))
+            screen.blit(username_display, (410, 300))
+            screen.blit(typename, (240, 200))
            
             if len(username) == 3:
-                screen.blit(entersubmit, (300, 450))
+                screen.blit(entersubmit, (280, 450))
 
         pygame.display.update()
         await asyncio.sleep(0)  
