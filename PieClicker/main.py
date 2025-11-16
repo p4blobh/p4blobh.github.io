@@ -155,7 +155,6 @@ async def main():
         
         
             if event.type == pygame.KEYDOWN and nametyping:
-                print("Key pressed")
                 if event.key == pygame.K_RETURN:
                     if len(username) == 3:
                         nametyping=False
@@ -163,7 +162,6 @@ async def main():
                 elif event.key == pygame.K_BACKSPACE:
                         username = username[:-1] 
                 elif len(username) < 3 and event.unicode.isalpha():
-                        print("Adding letter")
                         username += event.unicode.upper()
                 if event.key == pygame.K_ESCAPE:
                     nametyping=False
@@ -175,11 +173,11 @@ async def main():
         wrecord= open("highscore.txt", "r").read()
         testtext = titlefont.render(wrecord, True, (0,0,0))
         screen.blit(testtext, (200,100))
-        worldrecordpiestext = smallerfont.render('World Record Pies: {:.0f}'.format(int(wrecord[:-5])), True, (0, 0, 0))
+        worldrecordpiestext = smallerfont.render('World Record Pies: {:.0f}'.format(float(wrecord[:-5])), True, (0, 0, 0))
         screen.blit(worldrecordpiestext, (20,530))
         
         
-        if game.mostpies > int(wrecord[:-5]):
+        if game.mostpies > float(wrecord[:-5]):
             submitrecordBtn = pygame.Rect(10, 550, 200, 30)
             submitrecordtxt = smallerfont.render('Submit Your Record', True, (255, 255, 255))
             pygame.draw.rect(screen, (9, 80, 214), submitrecordBtn, border_radius=5)
@@ -193,7 +191,6 @@ async def main():
                     
                     
         
-    
 
         piestxt = mainfont.render('Pies: {:.0f}'.format(game.pies), True, (0, 0, 0))
         piesperclicktxt = mainfont.render('Pies/Click: {0}'.format(game.pies_per_click), True, (0, 0, 0))
