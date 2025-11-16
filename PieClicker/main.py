@@ -113,7 +113,7 @@ class Game:
             self.submitrecordBtn = pygame.Rect(10, 570, 150, 22)
             submitrecordtxt = smallerfont.render('Submit Your Record', True, (255, 255, 255))
             
-            if self.mostpies > wrecord[:-5]: 
+            if self.mostpies > float(wrecord[:-5]): 
                 pygame.draw.rect(screen, (9, 80, 214), self.submitrecordBtn, border_radius=6)
                 screen.blit(submitrecordtxt, (30, 580))
                 waitrecord=True
