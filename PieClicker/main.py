@@ -3,6 +3,7 @@ import asyncio
 
 pygame.init()
 
+
 Screen_width = 800
 Screen_height = 600
 
@@ -17,6 +18,8 @@ pygame.display.set_icon(icon_image)
 #-------------------------------
 #----------- Fonts ------------#
 #-------------------------------
+pygame.font.init()
+
 titlefont = pygame.font.SysFont('Comic Sans MS', 50)
 mainfont = pygame.font.SysFont('Comic Sans MS', 30)
 smallerfont = pygame.font.SysFont('Comic Sans MS', 20)
@@ -86,8 +89,8 @@ class Game:
         self.ovenupgradecost = 200
 
         #Record Submission Button
-        self.submitrecordBtn = pygame.Rect(10, 570, 150, 22)
-        self.submitrecordtxt = smallerfont.render('Submit Your Record', True, (255, 255, 255))
+        self.submitrecordBtn = pygame.Rect(10, 570, 170, 22)
+        self.submitrecordtxt = smallerfont.render('Submit Your Record (W.I.P)', True, (255, 255, 255))
         
     def upgrades(self):
             pygame.draw.rect(screen, (9, 146, 214), (500,0,300,600))
@@ -260,7 +263,7 @@ async def main():
             game.mostpies = game.pies
         
         recordpiestxt = smallerfont.render('Your Record Pies: {:.0f}'.format(game.mostpies), True, (0, 0, 0))
-        worldrecordpiestext = smallerfont.render('World Record Pies: {:.0f}'.format(float(wrecord[:-5])), True, (0, 0, 0))
+        worldrecordpiestext = smallerfont.render('World Record Pies: {:.0f}'.format(float(wrecord[:-5],' - ',wrecord[-3:])), True, (0, 0, 0))
                    
 
         piestxt = mainfont.render('Pies: {:.0f}'.format(game.pies), True, (0, 0, 0))
@@ -282,7 +285,7 @@ async def main():
 
             screen.blit(overlay, (0, 0))
             screen.blit(username_display, (390, 300))
-            screen.blit(typename, (300, 200))
+            screen.blit(typename, (200, 200))
            
             if len(username) == 3:
                 screen.blit(entersubmit, (300, 450))
