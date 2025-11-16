@@ -265,7 +265,7 @@ async def main():
             game.mostpies = game.pies
         
         recordpiestxt = smallerfont.render('Your Record Pies: {:.0f}'.format(game.mostpies), True, (0, 0, 0))
-        worldrecordpiestext = smallerfont.render('World Record Pies: {:.0f} - {}'.format(float(wrecord[:-5],wrecord[-3:])), True, (0, 0, 0))
+        worldrecordpiestext = smallerfont.render('World Record Pies: {:.0f} - {}'.format(float(wrecord[:-5]),wrecord[-3:]), True, (0, 0, 0))
                    
 
         piestxt = mainfont.render('Pies: {:.0f}'.format(game.pies), True, (0, 0, 0))
