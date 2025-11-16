@@ -10,7 +10,7 @@ Screen_height = 600
 screen = pygame.display.set_mode((Screen_width, Screen_height))
 pygame.display.set_caption('Pie-Clicker')
 
-icon_image = pygame.image.load(r"assets/PieClicker_logo.png")
+icon_image = pygame.image.load(r"PieClicker/assets/PieClicker_logo.png")
 pygame.display.set_icon(icon_image)
 
 
@@ -18,21 +18,21 @@ pygame.display.set_icon(icon_image)
 #-------------------------------
 #----------- Fonts ------------#
 #-------------------------------
-comicsans = r"assets/ComicSansMS.ttf"
+comicsans = r"PieClicker/assets/ComicSansMS.ttf"
 
-titlefont = pygame.font.Font('comicsans', 50)
-mainfont = pygame.font.Font('comicsans', 30)
-smallerfont = pygame.font.Font('comicsans', 20)
-upgradefont = pygame.font.Font('comicsans', 14)
+titlefont = pygame.font.Font(comicsans, 50)
+mainfont = pygame.font.Font(comicsans, 30)
+smallerfont = pygame.font.Font(comicsans, 20)
+upgradefont = pygame.font.Font(comicsans, 14)
 
 #-------------------------------
 #----------- Images -----------#
 #-------------------------------
-applepie = r"assets/applepie1.png"
-peachpie = r"assets/peachpie1.png"
-cursorimg = r"assets/cursor.png"
-grandmaimg = r"assets/grandma.png"
-ovenimg = r"assets/oven.png"
+applepie = r"PieClicker/assets/applepie1.png"
+peachpie = r"PieClicker/assets/peachpie1.png"
+cursorimg = r"PieClicker/assets/cursor.png"
+grandmaimg = r"PieClicker/assets/grandma.png"
+ovenimg = r"PieClicker/assets/oven.png"
 
 #------- Load Images ----------#
 
@@ -59,7 +59,7 @@ pie_tiers = [applepie, peachpie]
 
 pie_loct = (120,200)
 
-wrecord= open("highscore.txt", "r").read()
+wrecord= open(r"PieClicker/highscore.txt", "r").read()
 
 waitrecord = False
 
@@ -89,7 +89,7 @@ class Game:
         self.ovenupgradecost = 200
 
         #Record Submission Button
-        self.submitrecordBtn = pygame.Rect(10, 570, 185, 22)
+        self.submitrecordBtn = pygame.Rect(15, 575, 275, 22)
         self.submitrecordtxt = smallerfont.render('Submit Your Record (W.I.P)', True, (255, 255, 255))
         
     def upgrades(self):
@@ -125,7 +125,7 @@ class Game:
             if self.mostpies > float(wrecord[:-5]):
                 global waitrecord 
                 pygame.draw.rect(screen, (9, 80, 214), self.submitrecordBtn, border_radius=6)
-                screen.blit(self.submitrecordtxt, (25, 570))
+                screen.blit(self.submitrecordtxt, (20, 570))
                 waitrecord=True
 
     def pietier(self):
@@ -231,7 +231,7 @@ async def main():
 
     run = True
     nametyping=False
-    wrecord= open("highscore.txt", "r").read()
+    wrecord= open(r"PieClicker/highscore.txt", "r").read()
     username = ""
     
     
@@ -250,8 +250,8 @@ async def main():
                 if event.key == pygame.K_RETURN:
                     if len(username) == 3:
                         nametyping=False
-                        open("highscore.txt", "w").write(str(game.mostpies)+" - "+username)
-                        wrecord= open("highscore.txt", "r").read()
+                        open(r"PieClicker/highscore.txt", "w").write(str(game.mostpies)+" - "+username)
+                        wrecord= open(r"PieClicker/highscore.txt", "r").read()
                 elif event.key == pygame.K_BACKSPACE:
                         username = username[:-1] 
                 elif len(username) < 3 and event.unicode.isalpha():
@@ -262,8 +262,8 @@ async def main():
         if game.pies > game.mostpies:
             game.mostpies = game.pies
         
-        recordpiestxt = smallerfont.render('Your Record Pies: {:.0f}'.format(game.mostpies), True, (0, 0, 0))
-        worldrecordpiestext = smallerfont.render('World Record Pies: {:.0f} - {}'.format(float(wrecord[:-5]),wrecord[-3:]), True, (0, 0, 0))
+        recordpiestxt = smallerfont.render('Your Record: {:.0f}'.format(game.mostpies), True, (0, 0, 0))
+        worldrecordpiestext = smallerfont.render('World Record: {:.0f} - {}'.format(float(wrecord[:-5]),wrecord[-3:]), True, (0, 0, 0))
                    
 
         piestxt = mainfont.render('Pies: {:.0f}'.format(game.pies), True, (0, 0, 0))
