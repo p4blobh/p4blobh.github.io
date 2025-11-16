@@ -133,7 +133,6 @@ class Game:
         if self.pies >= self.grandmaupgradecost: #Tier 2 - Peach
             current_tier = 1
         
-        self.pie = pygame.transform.scale(pygame.image.load(pie_tiers[current_tier]), (300, 150))
         self.pie = pietiersloaded[current_tier]
         screen.blit(self.pie,(pie_loct))
 
