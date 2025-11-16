@@ -239,7 +239,7 @@ async def main():
     while run:
     
         screen.fill ((255,255,255))
-        screen.blit(titletext, (160,50))
+        screen.blit(titletext, (145,50))
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -285,10 +285,10 @@ async def main():
 
             screen.blit(overlay, (0, 0))
             screen.blit(username_display, (410, 300))
-            screen.blit(typename, (240, 200))
+            screen.blit(typename, (230, 200))
            
             if len(username) == 3:
-                screen.blit(entersubmit, (280, 450))
+                screen.blit(entersubmit, (270, 430))
 
         pygame.display.update()
         await asyncio.sleep(0)  
