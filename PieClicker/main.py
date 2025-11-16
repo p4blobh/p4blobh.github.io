@@ -28,6 +28,8 @@ upgradefont = pygame.font.SysFont('Comic Sans MS', 14)
 applepie = r"applepie1.png"
 peachpie = r"peachpie1.png"
 cursorimg = r"cursor.png"
+grandmaimg = r"grandma.png"
+ovenimg = r"oven.png"
 
 
 #-------------------------------
@@ -53,6 +55,11 @@ class Game:
         self.clickupgradedesc = upgradefont.render('Cursor: Pies per click +1', True, (0,0,0))
         self.clickupgradecost = 10
 
+        #Grandma Upgrade
+        self.grandmaupgradeBtn = pygame.Rect(510, 150, 280, 70)
+        self.grandmaupgradedesc = upgradefont.render('Grandma: Pies per second +1', True, (0,0,0))
+        self.grandmaupgradecost = 50
+
 
         
     def upgrades(self):
@@ -69,10 +76,29 @@ class Game:
             pygame.draw.rect(screen, (9, 80, 214),(520,75,50,60),border_radius=7)
             screen.blit(cursorimgbg, (530,75))
 
+            #Grandma Upgrade
+            self.grandmaupgradeshowcost = upgradefont.render(f'Cost: {self.grandmaupgradecost}', True, (0,0,0))
+            pygame.draw.rect(screen, (9, 101, 214), self.grandmaupgradeBtn, border_radius=5)
+            screen.blit(self.grandmaupgradeshowcost, (580, 190))
+            screen.blit(self.grandmaupgradedesc, (580, 160))
+            grandmaimgload = pygame.image.load(grandmaimg)
+            grandmaimgresize = pygame.transform.scale(grandmaimgload, (40, 60))
+            grandmaimgbg = grandmaimgresize.convert_alpha()
+            pygame.draw.rect(screen, (9, 80, 214),(520,155,50,60),border_radius=7)
+            screen.blit(grandmaimgbg, (530,155))
 
 
+            #Oven Upgrade
+            self.ovenupgradeshowcost = upgradefont.render(f'Cost: {self.ovenupgradecost}', True, (0,0,0))
+            pygame.draw.rect(screen, (9, 101, 214), self.ovenupgradeBtn, border_radius=5)
+            screen.blit(self.ovenupgradeshowcost, (580, 270))
+            screen.blit(self.ovenupgradedesc, (580, 240))
+            ovenimgload = pygame.image.load(ovenimg)
+            ovenimgresize = pygame.transform.scale(ovenimgload, (40, 60))
+            ovenimgbg = ovenimgresize.convert_alpha()
+            pygame.draw.rect(screen, (9, 80, 214),(520,235,50,60),border_radius=7)
+            screen.blit(ovenimgbg, (530,235))
 
-            # Next Upgrade Here
     def pietier(self):
         
         if self.pies <= 20: #Tier 1 - Apple
@@ -92,6 +118,7 @@ class Game:
              if self.clicked:
                 self.pies += self.pies_per_click
                 self.clicked = False
+
         if self.clickupgradeBtn.collidepoint(self.mouse_pos):
             if pygame.mouse.get_pressed()[0]:
                 self.clicked = True
@@ -101,6 +128,28 @@ class Game:
                         self.pies -= self.clickupgradecost
                         self.pies_per_click += 1
                         self.clickupgradecost = int(self.clickupgradecost * 1.5)
+                    self.clicked = False
+
+        if self.grandmaupgradeBtn.collidepoint(self.mouse_pos):
+            if pygame.mouse.get_pressed()[0]:
+                self.clicked = True
+            else:
+                if self.clicked:
+                    if self.pies >= self.grandmaupgradecost:
+                        self.pies -= self.grandmaupgradecost
+                        self.pies_per_second += 1
+                        self.grandmaupgradecost = int(self.grandmaupgradecost * 1.5)
+                    self.clicked = False
+
+        if self.ovenupgradeBtn.collidepoint(self.mouse_pos):
+            if pygame.mouse.get_pressed()[0]:
+                self.clicked = True
+            else:
+                if self.clicked:
+                    if self.pies >= self.ovenupgradecost:
+                        self.pies -= self.ovenupgradecost
+                        self.pies_per_second += 5
+                        self.ovenupgradecost = int(self.ovenupgradecost * 1.5)
                     self.clicked = False
 
         
@@ -147,7 +196,7 @@ async def main():
     while run:
     
         screen.fill ((255,255,255))
-        screen.blit(titletext, (120,50))
+        screen.blit(titletext, (130,50))
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -177,9 +226,9 @@ async def main():
         
         
         if game.mostpies > float(wrecord[:-5]):
-            submitrecordBtn = pygame.Rect(10, 570, 160, 30)
+            submitrecordBtn = pygame.Rect(10, 570, 150, 22)
             submitrecordtxt = smallerfont.render('Submit Your Record', True, (255, 255, 255))
-            pygame.draw.rect(screen, (9, 80, 214), submitrecordBtn, border_radius=5)
+            pygame.draw.rect(screen, (9, 80, 214), submitrecordBtn, border_radius=6)
             screen.blit(submitrecordtxt, (30, 580))
 
 
