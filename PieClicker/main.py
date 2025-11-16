@@ -52,6 +52,8 @@ pie_loct = (120,200)
 
 wrecord= open("highscore.txt", "r").read()
 
+waitrecord = False
+
 class Game:
     def __init__(self):
         self.pies = 0
@@ -114,6 +116,7 @@ class Game:
             if self.mostpies > wrecord[:-5]: 
                 pygame.draw.rect(screen, (9, 80, 214), self.submitrecordBtn, border_radius=6)
                 screen.blit(submitrecordtxt, (30, 580))
+                waitrecord=True
 
     def pietier(self):
         
@@ -171,9 +174,10 @@ class Game:
                         self.ovenupgradecost = int(self.ovenupgradecost * 1.5)
                     self.clicked = False
 
-        if self.submitrecordBtn.collidepoint(self.mouse_pos):
-            if pygame.mouse.get_pressed()[0]:
-                nametyping=True
+        if self.mostpies > wrecord[:-5] and waitrecord==True: 
+            if self.submitrecordBtn.collidepoint(self.mouse_pos):
+                if pygame.mouse.get_pressed()[0]:
+                    nametyping=True
 
         
 
