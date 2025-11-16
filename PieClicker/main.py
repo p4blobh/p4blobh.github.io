@@ -31,7 +31,17 @@ cursorimg = r"cursor.png"
 grandmaimg = r"grandma.png"
 ovenimg = r"oven.png"
 
+cursorimgload = pygame.image.load(cursorimg)
+cursorimgresize = pygame.transform.scale(cursorimgload, (30, 60))
+cursorimgbg = cursorimgresize.convert_alpha()  
 
+grandmaimgload = pygame.image.load(grandmaimg)
+grandmaimgresize = pygame.transform.scale(grandmaimgload, (40, 60))
+grandmaimgbg = grandmaimgresize.convert_alpha()
+
+ovenimgload = pygame.image.load(ovenimg)
+ovenimgresize = pygame.transform.scale(ovenimgload, (40, 60))
+ovenimgbg = ovenimgresize.convert_alpha()
 #-------------------------------
 #------- Clicker Setup --------#
 #-------------------------------
@@ -39,6 +49,8 @@ ovenimg = r"oven.png"
 pie_tiers = [applepie, peachpie]
 
 pie_loct = (120,200)
+
+wrecord= open("highscore.txt", "r").read()
 
 class Game:
     def __init__(self):
@@ -75,9 +87,6 @@ class Game:
             pygame.draw.rect(screen, (9, 101, 214), self.clickupgradeBtn, border_radius=5)
             screen.blit(self.clickupgradeshowcost, (580, 110))
             screen.blit(self.clickupgradedesc, (580, 80))
-            cursorimgload = pygame.image.load(cursorimg)
-            cursorimgresize = pygame.transform.scale(cursorimgload, (30, 60))
-            cursorimgbg = cursorimgresize.convert_alpha()  
             pygame.draw.rect(screen, (9, 80, 214),(520,75,50,60),border_radius=7)
             screen.blit(cursorimgbg, (530,75))
 
@@ -86,9 +95,6 @@ class Game:
             pygame.draw.rect(screen, (9, 101, 214), self.grandmaupgradeBtn, border_radius=5)
             screen.blit(self.grandmaupgradeshowcost, (580, 190))
             screen.blit(self.grandmaupgradedesc, (580, 160))
-            grandmaimgload = pygame.image.load(grandmaimg)
-            grandmaimgresize = pygame.transform.scale(grandmaimgload, (40, 60))
-            grandmaimgbg = grandmaimgresize.convert_alpha()
             pygame.draw.rect(screen, (9, 80, 214),(520,155,50,60),border_radius=7)
             screen.blit(grandmaimgbg, (530,155))
 
@@ -98,24 +104,32 @@ class Game:
             pygame.draw.rect(screen, (9, 101, 214), self.ovenupgradeBtn, border_radius=5)
             screen.blit(self.ovenupgradeshowcost, (580, 270))
             screen.blit(self.ovenupgradedesc, (580, 240))
-            ovenimgload = pygame.image.load(ovenimg)
-            ovenimgresize = pygame.transform.scale(ovenimgload, (40, 60))
-            ovenimgbg = ovenimgresize.convert_alpha()
             pygame.draw.rect(screen, (9, 80, 214),(520,235,50,60),border_radius=7)
             screen.blit(ovenimgbg, (530,235))
 
+            #Record Submission Button
+            self.submitrecordBtn = pygame.Rect(10, 570, 150, 22)
+            submitrecordtxt = smallerfont.render('Submit Your Record', True, (255, 255, 255))
+            
+            if self.mostpies > wrecord[:-5]: 
+                pygame.draw.rect(screen, (9, 80, 214), self.submitrecordBtn, border_radius=6)
+                screen.blit(submitrecordtxt, (30, 580))
+
     def pietier(self):
         
-        if self.pies <= 20: #Tier 1 - Apple
-            current_tier = 0
-        if self.pies >= 20: #Tier 2 - Peach for now
+        
+        current_tier = 0 #Tier 1 - Apple
+
+        if self.pies >= self.grandmaupgradecost: #Tier 2 - Peach
             current_tier = 1
         
         self.pie = pygame.transform.scale(pygame.image.load(pie_tiers[current_tier]), (300, 150))
         screen.blit(self.pie,(pie_loct))
+
     def click(self):
         
         self.mouse_pos = pygame.mouse.get_pos()
+
         if self.pie.get_rect(topleft=(pie_loct)).collidepoint(self.mouse_pos):
             if pygame.mouse.get_pressed()[0]:
                 self.clicked = True
@@ -157,6 +171,10 @@ class Game:
                         self.ovenupgradecost = int(self.ovenupgradecost * 1.5)
                     self.clicked = False
 
+        if self.submitrecordBtn.collidepoint(self.mouse_pos):
+            if pygame.mouse.get_pressed()[0]:
+                nametyping=True
+
         
 
     
@@ -197,6 +215,7 @@ async def main():
     nametyping=False
     username = ""
     
+    
 
     while run:
     
@@ -213,6 +232,7 @@ async def main():
                     if len(username) == 3:
                         nametyping=False
                         open("highscore.txt", "w").write(str(game.mostpies)+" - "+username)
+                        wrecord= open("highscore.txt", "r").read()
                 elif event.key == pygame.K_BACKSPACE:
                         username = username[:-1] 
                 elif len(username) < 3 and event.unicode.isalpha():
@@ -224,26 +244,8 @@ async def main():
             game.mostpies = game.pies
         
         recordpiestxt = smallerfont.render('Your Record Pies: {:.0f}'.format(game.mostpies), True, (0, 0, 0))
-        wrecord= open("highscore.txt", "r").read()
-       
         worldrecordpiestext = smallerfont.render('World Record Pies: {:.0f}'.format(float(wrecord[:-5])), True, (0, 0, 0))
-        screen.blit(worldrecordpiestext, (20,550))
-        
-        
-        if game.mostpies > float(wrecord[:-5]):
-            submitrecordBtn = pygame.Rect(10, 570, 150, 22)
-            submitrecordtxt = smallerfont.render('Submit Your Record', True, (255, 255, 255))
-            pygame.draw.rect(screen, (9, 80, 214), submitrecordBtn, border_radius=6)
-            screen.blit(submitrecordtxt, (30, 580))
-
-
-            mouse_pos = pygame.mouse.get_pos()
-            if submitrecordBtn.collidepoint(mouse_pos):
-                if pygame.mouse.get_pressed()[0]:
-                    nametyping=True
-                    
-                    
-        
+        screen.blit(worldrecordpiestext, (20,550))            
 
         piestxt = mainfont.render('Pies: {:.0f}'.format(game.pies), True, (0, 0, 0))
         piesperclicktxt = mainfont.render('Pies/Click: {0}'.format(game.pies_per_click), True, (0, 0, 0))
