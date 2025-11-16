@@ -60,6 +60,11 @@ class Game:
         self.grandmaupgradedesc = upgradefont.render('Grandma: Pies per second +1', True, (0,0,0))
         self.grandmaupgradecost = 50
 
+        #Oven Upgrade
+        self.ovenupgradeBtn = pygame.Rect(510, 230, 280, 70)
+        self.ovenupgradedesc = upgradefont.render('Oven: Pies per second +5', True, (0,0,0))
+        self.ovenupgradecost = 200
+
 
         
     def upgrades(self):
