@@ -89,7 +89,7 @@ class Game:
         self.ovenupgradecost = 200
 
         #Record Submission Button
-        self.submitrecordBtn = pygame.Rect(10, 570, 170, 22)
+        self.submitrecordBtn = pygame.Rect(10, 560, 180, 22)
         self.submitrecordtxt = smallerfont.render('Submit Your Record (W.I.P)', True, (255, 255, 255))
         
     def upgrades(self):
@@ -188,8 +188,6 @@ class Game:
             if self.submitrecordBtn.collidepoint(self.mouse_pos):
                 if pygame.mouse.get_pressed()[0]:
                     global nametyping
-                    global username
-                    username=""
                     nametyping=True
 
         
@@ -234,7 +232,7 @@ async def main():
     run = True
     nametyping=False
     wrecord= open("highscore.txt", "r").read()
-    username = wrecord[-3:]
+    username = ""
     
     
 
