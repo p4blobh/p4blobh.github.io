@@ -36,11 +36,11 @@ cursorimgresize = pygame.transform.scale(cursorimgload, (30, 60))
 cursorimgbg = cursorimgresize.convert_alpha()  
 
 grandmaimgload = pygame.image.load(grandmaimg)
-grandmaimgresize = pygame.transform.scale(grandmaimgload, (40, 60))
+grandmaimgresize = pygame.transform.scale(grandmaimgload, (30, 60))
 grandmaimgbg = grandmaimgresize.convert_alpha()
 
 ovenimgload = pygame.image.load(ovenimg)
-ovenimgresize = pygame.transform.scale(ovenimgload, (40, 60))
+ovenimgresize = pygame.transform.scale(ovenimgload, (30, 60))
 ovenimgbg = ovenimgresize.convert_alpha()
 #-------------------------------
 #------- Clicker Setup --------#
@@ -79,10 +79,10 @@ class Game:
         self.ovenupgradedesc = upgradefont.render('Oven: Pies per second +5', True, (0,0,0))
         self.ovenupgradecost = 200
 
-
-        self.grandmaupgradeshowcost = upgradefont.render(f'Cost: {self.grandmaupgradecost}', True, (0,0,0))
-        pygame.draw.rect(screen, (9, 101, 214), self.grandmaupgradeBtn, border_radius=5)
-        pygame.draw.rect(screen, (9, 80, 214),(520,155,50,60),border_radius=7)
+        #Record Submission Button
+        self.submitrecordBtn = pygame.Rect(10, 570, 150, 22)
+        self.submitrecordtxt = smallerfont.render('Submit Your Record', True, (255, 255, 255))
+        
     def upgrades(self):
             pygame.draw.rect(screen, (9, 146, 214), (500,0,300,600))
 
@@ -96,9 +96,10 @@ class Game:
 
             #Grandma Upgrade
             self.grandmaupgradeshowcost = upgradefont.render(f'Cost: {self.grandmaupgradecost}', True, (0,0,0))
+            pygame.draw.rect(screen, (9, 101, 214), self.grandmaupgradeBtn, border_radius=5)
             screen.blit(self.grandmaupgradeshowcost, (580, 190))
             screen.blit(self.grandmaupgradedesc, (580, 160))
-            
+            pygame.draw.rect(screen, (9, 80, 214),(520,155,50,60),border_radius=7)
             screen.blit(grandmaimgbg, (530,155))
 
 
@@ -111,12 +112,11 @@ class Game:
             screen.blit(ovenimgbg, (530,235))
 
             #Record Submission Button
-            self.submitrecordBtn = pygame.Rect(10, 570, 150, 22)
-            submitrecordtxt = smallerfont.render('Submit Your Record', True, (255, 255, 255))
             
-            if self.mostpies > float(wrecord[:-5]): 
+            if self.mostpies > float(wrecord[:-5]):
+                global waitrecord 
                 pygame.draw.rect(screen, (9, 80, 214), self.submitrecordBtn, border_radius=6)
-                screen.blit(submitrecordtxt, (30, 580))
+                screen.blit(self.submitrecordtxt, (25, 570))
                 waitrecord=True
 
     def pietier(self):
@@ -178,6 +178,7 @@ class Game:
         if self.mostpies > float(wrecord[:-5]) and waitrecord==True: 
             if self.submitrecordBtn.collidepoint(self.mouse_pos):
                 if pygame.mouse.get_pressed()[0]:
+                    global nametyping
                     nametyping=True
 
         
@@ -206,6 +207,9 @@ piestxt = mainfont.render('Pies: {0}'.format(game.pies), True, (0, 0, 0))
 piesperclicktxt = mainfont.render('Pies/Click: {0}'.format(game.pies_per_click), True, (0, 0, 0))
 piespersectxt = mainfont.render('Pies/Sec: {0}'.format(game.pies_per_second), True, (0, 0, 0))
 recordpiestxt = smallerfont.render('Most Pies: {0}'.format(game.mostpies), True, (0, 0, 0))
+typename = titlefont.render('ENTER YOUR INITIALS:', True, (255,255,255))
+entersubmit = mainfont.render("PRESS ENTER TO SUBMIT", True,(255,255,255))
+
 
 
 #-------------------------------
@@ -267,14 +271,13 @@ async def main():
         game.render()    
 
         if nametyping==True:
-            screen.blit(overlay, (0, 0))
-            typename = titlefont.render('ENTER YOUR INITIALS:', True, (255,255,255))
             username_display = titlefont.render(username, True, (255,255,255))
+
+            screen.blit(overlay, (0, 0))
             screen.blit(username_display, (390, 300))
             screen.blit(typename, (300, 200))
            
             if len(username) == 3:
-                entersubmit = mainfont.render("PRESS ENTER TO SUBMIT", True,(255,255,255))
                 screen.blit(entersubmit, (300, 450))
 
         pygame.display.update()
