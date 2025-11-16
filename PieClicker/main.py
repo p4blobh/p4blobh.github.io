@@ -20,7 +20,7 @@ pygame.display.set_icon(icon_image)
 #-------------------------------
 comicsans = "assets/ComicSansMS.ttf"
 
-titlefont = pygame.font.Font(comicsans, 50)
+titlefont = pygame.font.SysFont("Comic Sans MS", 50)
 mainfont = pygame.font.Font(comicsans, 30)
 smallerfont = pygame.font.Font(comicsans, 20)
 upgradefont = pygame.font.Font(comicsans, 14)
