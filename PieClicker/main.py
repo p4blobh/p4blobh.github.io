@@ -80,7 +80,9 @@ class Game:
         self.ovenupgradecost = 200
 
 
-        
+        self.grandmaupgradeshowcost = upgradefont.render(f'Cost: {self.grandmaupgradecost}', True, (0,0,0))
+        pygame.draw.rect(screen, (9, 101, 214), self.grandmaupgradeBtn, border_radius=5)
+        pygame.draw.rect(screen, (9, 80, 214),(520,155,50,60),border_radius=7)
     def upgrades(self):
             pygame.draw.rect(screen, (9, 146, 214), (500,0,300,600))
 
@@ -94,10 +96,9 @@ class Game:
 
             #Grandma Upgrade
             self.grandmaupgradeshowcost = upgradefont.render(f'Cost: {self.grandmaupgradecost}', True, (0,0,0))
-            pygame.draw.rect(screen, (9, 101, 214), self.grandmaupgradeBtn, border_radius=5)
             screen.blit(self.grandmaupgradeshowcost, (580, 190))
             screen.blit(self.grandmaupgradedesc, (580, 160))
-            pygame.draw.rect(screen, (9, 80, 214),(520,155,50,60),border_radius=7)
+            
             screen.blit(grandmaimgbg, (530,155))
 
 
