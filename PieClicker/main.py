@@ -10,7 +10,7 @@ Screen_height = 600
 screen = pygame.display.set_mode((Screen_width, Screen_height))
 pygame.display.set_caption('Pie-Clicker')
 
-icon_image = pygame.image.load(r"PieClicker/assets/PieClicker_logo.png")
+icon_image = pygame.image.load("assets/PieClicker_logo.png")
 pygame.display.set_icon(icon_image)
 
 
@@ -18,7 +18,7 @@ pygame.display.set_icon(icon_image)
 #-------------------------------
 #----------- Fonts ------------#
 #-------------------------------
-comicsans = r"PieClicker/assets/ComicSansMS.ttf"
+comicsans = "assets/ComicSansMS.ttf"
 
 titlefont = pygame.font.Font(comicsans, 50)
 mainfont = pygame.font.Font(comicsans, 30)
@@ -28,11 +28,11 @@ upgradefont = pygame.font.Font(comicsans, 14)
 #-------------------------------
 #----------- Images -----------#
 #-------------------------------
-applepie = r"PieClicker/assets/applepie1.png"
-peachpie = r"PieClicker/assets/peachpie1.png"
-cursorimg = r"PieClicker/assets/cursor.png"
-grandmaimg = r"PieClicker/assets/grandma.png"
-ovenimg = r"PieClicker/assets/oven.png"
+applepie = "assets/applepie1.png"
+peachpie = "assets/peachpie1.png"
+cursorimg = "assets/cursor.png"
+grandmaimg = "assets/grandma.png"
+ovenimg = "assets/oven.png"
 
 #------- Load Images ----------#
 
@@ -59,7 +59,7 @@ pie_tiers = [applepie, peachpie]
 
 pie_loct = (120,200)
 
-wrecord= open(r"PieClicker/highscore.txt", "r").read()
+wrecord= open("highscore.txt", "r").read()
 
 waitrecord = False
 
@@ -216,7 +216,7 @@ piestxt = mainfont.render('Pies: {0}'.format(game.pies), True, (0, 0, 0))
 piesperclicktxt = mainfont.render('Pies/Click: {0}'.format(game.pies_per_click), True, (0, 0, 0))
 piespersectxt = mainfont.render('Pies/Sec: {0}'.format(game.pies_per_second), True, (0, 0, 0))
 recordpiestxt = smallerfont.render('Most Pies: {0}'.format(game.mostpies), True, (0, 0, 0))
-typename = titlefont.render('ENTER YOUR INITIALS:', True, (255,255,255))
+typename = titlefont.render('ENTER YOUR NAME:', True, (255,255,255))
 entersubmit = mainfont.render("PRESS ENTER TO SUBMIT", True,(255,255,255))
 
 
@@ -231,7 +231,7 @@ async def main():
 
     run = True
     nametyping=False
-    wrecord= open(r"PieClicker/highscore.txt", "r").read()
+    wrecord= open("highscore.txt", "r").read()
     username = ""
     
     
@@ -250,8 +250,8 @@ async def main():
                 if event.key == pygame.K_RETURN:
                     if len(username) == 3:
                         nametyping=False
-                        open(r"PieClicker/highscore.txt", "w").write(str(game.mostpies)+" - "+username)
-                        wrecord= open(r"PieClicker/highscore.txt", "r").read()
+                        open("highscore.txt", "w").write(str(game.mostpies)+" - "+username)
+                        wrecord= open("highscore.txt", "r").read()
                 elif event.key == pygame.K_BACKSPACE:
                         username = username[:-1] 
                 elif len(username) < 3 and event.unicode.isalpha():
