@@ -174,7 +174,7 @@ class Game:
                         self.ovenupgradecost = int(self.ovenupgradecost * 1.5)
                     self.clicked = False
 
-        if self.mostpies > wrecord[:-5] and waitrecord==True: 
+        if self.mostpies > float(wrecord[:-5]) and waitrecord==True: 
             if self.submitrecordBtn.collidepoint(self.mouse_pos):
                 if pygame.mouse.get_pressed()[0]:
                     nametyping=True
