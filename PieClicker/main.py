@@ -188,6 +188,8 @@ class Game:
             if self.submitrecordBtn.collidepoint(self.mouse_pos):
                 if pygame.mouse.get_pressed()[0]:
                     global nametyping
+                    global username
+                    username=""
                     nametyping=True
 
         
@@ -231,8 +233,8 @@ async def main():
 
     run = True
     nametyping=False
-    username = ""
     wrecord= open("highscore.txt", "r").read()
+    username = wrecord[-3:]
     
     
 
@@ -263,7 +265,7 @@ async def main():
             game.mostpies = game.pies
         
         recordpiestxt = smallerfont.render('Your Record Pies: {:.0f}'.format(game.mostpies), True, (0, 0, 0))
-        worldrecordpiestext = smallerfont.render('World Record Pies: {:.0f}'.format(float(wrecord[:-5],' - ',wrecord[-3:])), True, (0, 0, 0))
+        worldrecordpiestext = smallerfont.render('World Record Pies: {:.0f} - {username}'.format(float(wrecord[:-5])), True, (0, 0, 0))
                    
 
         piestxt = mainfont.render('Pies: {:.0f}'.format(game.pies), True, (0, 0, 0))
