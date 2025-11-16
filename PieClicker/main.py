@@ -171,17 +171,16 @@ async def main():
         
         recordpiestxt = smallerfont.render('Your Record Pies: {:.0f}'.format(game.mostpies), True, (0, 0, 0))
         wrecord= open("highscore.txt", "r").read()
-        testtext = titlefont.render(wrecord, True, (0,0,0))
-        screen.blit(testtext, (200,100))
+       
         worldrecordpiestext = smallerfont.render('World Record Pies: {:.0f}'.format(float(wrecord[:-5])), True, (0, 0, 0))
-        screen.blit(worldrecordpiestext, (20,530))
+        screen.blit(worldrecordpiestext, (20,550))
         
         
         if game.mostpies > float(wrecord[:-5]):
-            submitrecordBtn = pygame.Rect(10, 550, 200, 30)
+            submitrecordBtn = pygame.Rect(10, 570, 160, 30)
             submitrecordtxt = smallerfont.render('Submit Your Record', True, (255, 255, 255))
             pygame.draw.rect(screen, (9, 80, 214), submitrecordBtn, border_radius=5)
-            screen.blit(submitrecordtxt, (20, 550))
+            screen.blit(submitrecordtxt, (30, 580))
 
 
             mouse_pos = pygame.mouse.get_pos()
@@ -196,7 +195,7 @@ async def main():
         piesperclicktxt = mainfont.render('Pies/Click: {0}'.format(game.pies_per_click), True, (0, 0, 0))
         piespersectxt = mainfont.render('Pies/Sec: {0}'.format(game.pies_per_second), True, (0, 0, 0))
         
-        screen.blit(recordpiestxt, (180,130))
+        screen.blit(recordpiestxt, (20,530))
         screen.blit(piestxt, (150,350))
         screen.blit(piesperclicktxt, (150,400))
         screen.blit(piespersectxt, (150,450))
@@ -209,7 +208,7 @@ async def main():
             screen.blit(overlay, (0, 0))
             typename = titlefont.render('ENTER YOUR INITIALS:', True, (255,255,255))
             username_display = titlefont.render(username, True, (255,255,255))
-            screen.blit(username_display, (380, 300))
+            screen.blit(username_display, (390, 300))
             screen.blit(typename, (300, 200))
            
             if len(username) == 3:
