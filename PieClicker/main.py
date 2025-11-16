@@ -89,7 +89,7 @@ class Game:
         self.ovenupgradecost = 200
 
         #Record Submission Button
-        self.submitrecordBtn = pygame.Rect(10, 560, 180, 22)
+        self.submitrecordBtn = pygame.Rect(10, 570, 185, 22)
         self.submitrecordtxt = smallerfont.render('Submit Your Record (W.I.P)', True, (255, 255, 255))
         
     def upgrades(self):
