@@ -214,6 +214,7 @@ async def main():
     run = True
     nametyping=False
     username = ""
+    wrecord= open("highscore.txt", "r").read()
     
     
 
