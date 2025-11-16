@@ -36,11 +36,11 @@ cursorimgresize = pygame.transform.scale(cursorimgload, (30, 60))
 cursorimgbg = cursorimgresize.convert_alpha()  
 
 grandmaimgload = pygame.image.load(grandmaimg)
-grandmaimgresize = pygame.transform.scale(grandmaimgload, (50, 60))
+grandmaimgresize = pygame.transform.scale(grandmaimgload, (45, 55))
 grandmaimgbg = grandmaimgresize.convert_alpha()
 
 ovenimgload = pygame.image.load(ovenimg)
-ovenimgresize = pygame.transform.scale(ovenimgload, (50, 60))
+ovenimgresize = pygame.transform.scale(ovenimgload, (45, 55))
 ovenimgbg = ovenimgresize.convert_alpha()
 #-------------------------------
 #------- Clicker Setup --------#
@@ -100,7 +100,7 @@ class Game:
             screen.blit(self.grandmaupgradeshowcost, (580, 190))
             screen.blit(self.grandmaupgradedesc, (580, 160))
             pygame.draw.rect(screen, (9, 80, 214),(520,155,50,60),border_radius=7)
-            screen.blit(grandmaimgbg, (523,155))
+            screen.blit(grandmaimgbg, (522,160))
 
 
             #Oven Upgrade
@@ -109,7 +109,7 @@ class Game:
             screen.blit(self.ovenupgradeshowcost, (580, 270))
             screen.blit(self.ovenupgradedesc, (580, 240))
             pygame.draw.rect(screen, (9, 80, 214),(520,235,50,60),border_radius=7)
-            screen.blit(ovenimgbg, (523,235))
+            screen.blit(ovenimgbg, (522,240))
 
             #Record Submission Button
             
@@ -230,7 +230,7 @@ async def main():
     while run:
     
         screen.fill ((255,255,255))
-        screen.blit(titletext, (145,50))
+        screen.blit(titletext, (155,50))
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
