@@ -264,7 +264,8 @@ async def main():
 #-------------------------------
 
 while True:
-    while True:
+    menu = True
+    while menu == True:
         difficulty = asyncio.run(main_menu())
 
         if difficulty=="easy":
@@ -272,21 +273,21 @@ while True:
             grid_height = 9
             num_mines = 10
             tilesize = 64
-            break
-
+            menu = False
         elif difficulty=="medium":
             grid_length = 16
             grid_height = 16
             num_mines = 40
             tilesize = 32
-            break
+            menu = False
         elif difficulty=="hard":
             grid_length = 22
             grid_height = 22
             num_mines = 99
             tilesize = 28
-            break
+            menu = False
         
+
     empty = pygame.transform.scale(b, (tilesize, tilesize))
     unknown = pygame.transform.scale(unknown, (tilesize, tilesize))
     flag = pygame.transform.scale(flag, (tilesize, tilesize))
