@@ -63,10 +63,15 @@ class tile:
         self.flagged = flagged
     
     def draw(self, surface): 
-        surface.blit(self.image, (self.x, self.y))
-
+        if not self.flagged and self.revealed:
+            surface.blit(self.image, (self.x, self.y))
+        elif self.flagged and not self.revealed:
+            surface.blit(flag, (self.x, self.y))  
+        elif not self.revealed:
+            surface.blit(unknown, (self.x, self.y))
     def __repr__(self):
         return self.type
+
 
 class grid:
     def __init__ (self):
@@ -76,6 +81,7 @@ class grid:
                        (screen_height - self.grid_surface.get_height()) // 2)
         self.place_mines()
         self.place_numbers()
+        self.dug = []
 
     def place_mines(self):
         for e in range(num_mines):
@@ -95,7 +101,7 @@ class grid:
                     total = self.check_neighbors(x, y)
                     if total > 0:
                         self.grid_list[x][y].image = numbers[total-1]
-                        self.grid_list[x][y].type = str(total)
+                        self.grid_list[x][y].type = "n"
                     
 
     @staticmethod
@@ -117,6 +123,27 @@ class grid:
             for tile in row:
                 tile.draw(self.grid_surface)
         screen.blit(self.grid_surface, self.offset)
+    
+    def dig(self,x,y):
+        self.dug.append((x,y))
+        if self.grid_list[x][y].type == "x":
+            self.grid_list[x][y].revealed = True
+            self.grid_list[x][y].image = explode
+            return False
+        
+        elif self.grid_list[x][y].type == "n":
+            self.grid_list[x][y].revealed = True
+            return True
+        
+        self.grid_list[x][y].revealed = True
+
+        for row in range(max(0,x-1), min(grid_length-1, x+1)+1): #this checks every neighbour and reveals them too
+            for col in range(max(0,y-1), min(grid_height-1, y+1)+1):
+                if (row,col) not in self.dug:
+                    self.dig(row,col)
+        return True
+        
+
     def display(self):
         for row in self.grid_list:
             print(row)
@@ -173,17 +200,58 @@ async def main_menu():
 #------------ Game ------------#
 #-------------------------------
 
+def checkforwin():
+    for row in Grid.grid_list:
+            for tile in row:
+                if tile.type != "x" and not tile.revealed:
+                    return False
+    return True
+
 async def main():
     Grid.display()
     while True:
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
 
-        screen.fill((77, 77, 77))
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                
+                mx, my = pygame.mouse.get_pos()
+                mx = (mx - Grid.offset[0]) // tilesize
+                my = (my - Grid.offset[1]) // tilesize
+
+                if mx < 0 or my < 0: #both of these are if outside the grid
+                    continue
+                if not Grid.inside_grid(mx, my):
+                    continue
+
+                if event.button == 1:
+                    if not Grid.grid_list[mx][my].flagged:
+                        if not Grid.dig(mx, my):
+                            for row in Grid.grid_list:
+                                for tile in row:
+                                    if tile.flagged and tile.type != "x":
+                                        tile.flagged = False
+                                        tile.revealed = True
+                                        tile.image = wrongflag
+                                    elif tile.type == "x":
+                                        tile.revealed = True
+                            return False
+                            
+                if event.button == 3:
+                    if not Grid.grid_list[mx][my].revealed:
+                        Grid.grid_list[mx][my].flagged = not Grid.grid_list[mx][my].flagged
         
+        
+        if checkforwin() == True:
+            for row in Grid.grid_list:
+                for tile in row:
+                    if not tile.revealed:
+                        tile.flagged = True
+            return True
+        screen.fill((77, 77, 77))
+
         
         Grid.draw(screen)
 
