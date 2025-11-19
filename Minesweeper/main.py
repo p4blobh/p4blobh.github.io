@@ -267,10 +267,19 @@ async def main():
 
 #-------------------------------
 
-while True:
-    menu = True
-    while menu == True:
-        difficulty = asyncio.run(main_menu())
+
+    
+    
+
+
+async def loop():
+    global empty, unknown, flag, mine, explode, wrongflag
+    global b1, b2, b3, b4, b5, b6, b7, b8
+    global numbers, Grid
+    global grid_length, grid_height, num_mines, tilesize
+    
+    while True:
+        difficulty = await main_menu()
 
         if difficulty=="easy":
             grid_length = 9
@@ -292,28 +301,27 @@ while True:
             menu = False
         
 
-    empty = pygame.transform.scale(b, (tilesize, tilesize))
-    unknown = pygame.transform.scale(unknown, (tilesize, tilesize))
-    flag = pygame.transform.scale(flag, (tilesize, tilesize))
-    mine = pygame.transform.scale(bomb, (tilesize, tilesize))
-    explode = pygame.transform.scale(boom, (tilesize, tilesize))
-    wrongflag = pygame.transform.scale(wrong, (tilesize, tilesize))
-    b1 = pygame.transform.scale(b1, (tilesize, tilesize))
-    b2 = pygame.transform.scale(b2, (tilesize, tilesize))
-    b3 = pygame.transform.scale(b3, (tilesize, tilesize))
-    b4 = pygame.transform.scale(b4, (tilesize, tilesize))
-    b5 = pygame.transform.scale(b5, (tilesize, tilesize))
-    b6 = pygame.transform.scale(b6, (tilesize, tilesize))
-    b7 = pygame.transform.scale(b7, (tilesize, tilesize))
-    b8 = pygame.transform.scale(b8, (tilesize, tilesize))
-    numbers = [b1, b2, b3, b4, b5, b6, b7, b8]
-    Grid = grid()
-    
-    if asyncio.run(main()) == True:
-        print("You win")
-    else:
-        print("You lose")
+        empty = pygame.transform.scale(b, (tilesize, tilesize))
+        unknown = pygame.transform.scale(unknown, (tilesize, tilesize))
+        flag = pygame.transform.scale(flag, (tilesize, tilesize))
+        mine = pygame.transform.scale(bomb, (tilesize, tilesize))
+        explode = pygame.transform.scale(boom, (tilesize, tilesize))
+        wrongflag = pygame.transform.scale(wrong, (tilesize, tilesize))
+        b1 = pygame.transform.scale(b1, (tilesize, tilesize))
+        b2 = pygame.transform.scale(b2, (tilesize, tilesize))
+        b3 = pygame.transform.scale(b3, (tilesize, tilesize))
+        b4 = pygame.transform.scale(b4, (tilesize, tilesize))
+        b5 = pygame.transform.scale(b5, (tilesize, tilesize))
+        b6 = pygame.transform.scale(b6, (tilesize, tilesize))
+        b7 = pygame.transform.scale(b7, (tilesize, tilesize))
+        b8 = pygame.transform.scale(b8, (tilesize, tilesize))
+        numbers = [b1, b2, b3, b4, b5, b6, b7, b8]
+        Grid = grid()
+        
+        if await main() == True:
+            print("You win")
+        else:
+            print("You lose")
+        
 
-
-
-
+asyncio.run(loop())
