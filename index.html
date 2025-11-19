@@ -16,19 +16,33 @@ height: 50px;
 div {
 	display: flex;
 	justify-content: center;
-}
-	.pieclickerimg {
-display: block;
-margin: auto;
 		}
-	.box {
+.minesweeperbut {
 position: absolute;
-border: 4px solid #000000;
-padding: 20px;
+top: 190px;
+left: 0px;
+background-color: rgb(74, 69, 69);
+padding: 10px;
+width: 340px;
+height: 50px;
+;
+	}
+.box {
+position: absolute;
+border: 5px solid #000000;
+padding: 19.1px;
 background-color: #0366d6;
 width: 300px;
 height: 200px;
 margin: 20px;
+	}
+#pieclicker {
+	left:50px;
+	top:200px;
+	}
+#minesweeper {
+	left:450px;
+	top:200px;
 	}
 </style>
   
@@ -38,9 +52,16 @@ margin: 20px;
 </center>
 
 <a href="https://p4blobh.github.io/PieClicker/build/web">
-<div class="box">
+<div id="pieclicker" class="box">
 	<img src="/PieClicker/assets/PieClicker_logo.png" width ="300" height="150" title="Pie-Clicker">
 </a>
 <button class="pieclickerbut"><a href="https://p4blobh.github.io/PieClicker/build/web"> Pie-Clicker</button></a></div>
+
+<a href="https://p4blobh.github.io/Minesweeper/build/web">
+<div id="minesweeper" class="box">
+	<img src="/Minesweeper/assets/flag.png" width ="160" height="160" title="Minesweeper">
+</a>
+<button class="minesweeperbut"><a href="https://p4blobh.github.io/Minesweeper/build/web"> Minesweeper</button></a></div>
+
 </body>
 </html>

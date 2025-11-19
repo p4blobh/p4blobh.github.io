@@ -159,7 +159,7 @@ class Game:
                     if self.pies >= self.clickupgradecost:
                         self.pies -= self.clickupgradecost
                         self.pies_per_click += 1
-                        self.clickupgradecost = int(self.clickupgradecost * 1.5)
+                        self.clickupgradecost = int(self.clickupgradecost * 1.1)
                     self.clicked = False
 
         if self.grandmaupgradeBtn.collidepoint(self.mouse_pos):
@@ -170,7 +170,7 @@ class Game:
                     if self.pies >= self.grandmaupgradecost:
                         self.pies -= self.grandmaupgradecost
                         self.pies_per_second += 1
-                        self.grandmaupgradecost = int(self.grandmaupgradecost * 1.5)
+                        self.grandmaupgradecost = int(self.grandmaupgradecost * 1.1)
                     self.clicked = False
 
         if self.ovenupgradeBtn.collidepoint(self.mouse_pos):
@@ -181,7 +181,7 @@ class Game:
                     if self.pies >= self.ovenupgradecost:
                         self.pies -= self.ovenupgradecost
                         self.pies_per_second += 5
-                        self.ovenupgradecost = int(self.ovenupgradecost * 1.5)
+                        self.ovenupgradecost = int(self.ovenupgradecost * 1.1)
                     self.clicked = False
 
         if self.mostpies > float(wrecord[:-5]) and waitrecord==True: 
