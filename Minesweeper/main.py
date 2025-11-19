@@ -1,6 +1,6 @@
 import pygame
 import asyncio
-
+import random
 pygame.init()
 
 screen_width = 1920
@@ -61,15 +61,62 @@ class tile:
         self.type = type
         self.revealed = revealed
         self.flagged = flagged
-        
+    
+    def draw(self, surface): 
+        surface.blit(self.image, (self.x, self.y))
+
     def __repr__(self):
         return self.type
 
 class grid:
     def __init__ (self):
         self.grid_surface = pygame.Surface((grid_length*tilesize, grid_height*tilesize))
-        self.grid_list = [[tile(col,row,unknown, ".")  for row in range(grid_height)] for col in range(grid_length)]
+        self.grid_list = [[tile(col,row,empty, ".") for row in range(grid_length)] for col in range(grid_height)] 
+        self.offset = ((screen_width - self.grid_surface.get_width()) // 2,
+                       (screen_height - self.grid_surface.get_height()) // 2)
+        self.place_mines()
+        self.place_numbers()
 
+    def place_mines(self):
+        for e in range(num_mines):
+            while True:
+                x = random.randint(0, grid_length-1)
+                y = random.randint(0, grid_height-1)
+
+                if self.grid_list[x][y].type == ".":
+                    self.grid_list[x][y].image = mine
+                    self.grid_list[x][y].type = "x"
+                    break
+
+    def place_numbers(self):
+        for x in range(grid_length):
+            for y in range(grid_height):
+                if self.grid_list[x][y].type != "x":
+                    total = self.check_neighbors(x, y)
+                    if total > 0:
+                        self.grid_list[x][y].image = numbers[total-1]
+                        self.grid_list[x][y].type = str(total)
+                    
+
+    @staticmethod
+    def inside_grid(x, y): 
+        return 0 <= x < grid_length and 0 <= y < grid_height
+
+    def check_neighbors(self, x, y):
+        total = 0
+        for dx in range(-1, 2):
+            for dy in range(-1, 2):
+                neighbour_x = x + dx
+                neighbour_y = y + dy
+                if self.inside_grid(neighbour_x, neighbour_y) and self.grid_list[neighbour_x][neighbour_y].type == "x":
+                    total += 1
+        return total
+     
+    def draw(self, screen):
+        for row in self.grid_list:
+            for tile in row:
+                tile.draw(self.grid_surface)
+        screen.blit(self.grid_surface, self.offset)
     def display(self):
         for row in self.grid_list:
             print(row)
@@ -127,17 +174,27 @@ async def main_menu():
 #-------------------------------
 
 async def main():
+    Grid.display()
+    while True:
 
-    grids = grid()
-    grids.display()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+        screen.fill((77, 77, 77))
+        
+        
+        Grid.draw(screen)
 
 
 
+        pygame.display.update()
+        await asyncio.sleep(0)      
+        clock.tick(20)
 
-    pygame.display.update()
-    await asyncio.sleep(0)      
-    clock.tick(20)
 
+#-------------------------------
 
 while True:
     difficulty = asyncio.run(main_menu())
@@ -174,7 +231,9 @@ while True:
     b6 = pygame.transform.scale(b6, (tilesize, tilesize))
     b7 = pygame.transform.scale(b7, (tilesize, tilesize))
     b8 = pygame.transform.scale(b8, (tilesize, tilesize))
-
+    numbers = [b1, b2, b3, b4, b5, b6, b7, b8]
+    Grid = grid()
+    
     asyncio.run(main())
 
 
