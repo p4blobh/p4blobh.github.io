@@ -155,11 +155,12 @@ class grid:
 
 
 async def main_menu():
+    mainmenu = True
     easyBtn = pygame.Rect(860, 600, 200, 50)
     mediumBtn = pygame.Rect(860, 700, 200, 50)
     hardBtn = pygame.Rect(860, 800, 200, 50)
     titlebg = pygame.Rect(765, 250, 400, 110)
-    while True:
+    while mainmenu:
         screen.fill((127, 127, 127))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
