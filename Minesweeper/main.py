@@ -194,11 +194,11 @@ async def main_menu():
         screen.blit(easy_text, (easyBtn.x + easyBtn.width//2 - easy_text.get_width()//2, easyBtn.y + easyBtn.height//2 - easy_text.get_height()//2))
         screen.blit(medium_text, (mediumBtn.x + mediumBtn.width//2 - medium_text.get_width()//2, mediumBtn.y + mediumBtn.height//2 - medium_text.get_height()//2))
         screen.blit(hard_text, (hardBtn.x + hardBtn.width//2 - hard_text.get_width()//2, hardBtn.y + hardBtn.height//2 - hard_text.get_height()//2))
-        screen.blit(flag, (100,100))
+        screen.blit(flag, (920,300))
 
-        pygame.display.update()
+        pygame.display.flip()
         await asyncio.sleep(0)      
-        clock.tick(10)
+        clock.tick(50)
 #-------------------------------
 #------------ Game ------------#
 #-------------------------------
@@ -260,9 +260,9 @@ async def main():
 
 
 
-        pygame.display.update()
+        pygame.display.flip()
         await asyncio.sleep(0)      
-        clock.tick(20)
+        clock.tick(50)
 
 
 #-------------------------------
