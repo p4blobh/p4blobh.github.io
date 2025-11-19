@@ -173,12 +173,15 @@ async def main_menu():
 
         if easyBtn.collidepoint(mouse_pos):
             if pygame.mouse.get_pressed()[0]:
+                mainmenu = False
                 return "easy"
         if mediumBtn.collidepoint(mouse_pos):
             if pygame.mouse.get_pressed()[0]:
+                mainmenu = False
                 return "medium"
         if hardBtn.collidepoint(mouse_pos):
             if pygame.mouse.get_pressed()[0]:
+                mainmenu = False
                 return "hard"
         
         pygame.draw.rect(screen, (9, 80, 214), easyBtn)
@@ -195,7 +198,7 @@ async def main_menu():
 
         pygame.display.update()
         await asyncio.sleep(0)      
-        clock.tick(20)
+        clock.tick(10)
 #-------------------------------
 #------------ Game ------------#
 #-------------------------------
@@ -306,7 +309,10 @@ while True:
     numbers = [b1, b2, b3, b4, b5, b6, b7, b8]
     Grid = grid()
     
-    asyncio.run(main())
+    if asyncio.run(main()) == True:
+        print("You win")
+    else:
+        print("You lose")
 
 
 
