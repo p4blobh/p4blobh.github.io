@@ -155,12 +155,11 @@ class grid:
 
 
 async def main_menu():
-    menu = True
     easyBtn = pygame.Rect(860, 600, 200, 50)
     mediumBtn = pygame.Rect(860, 700, 200, 50)
     hardBtn = pygame.Rect(860, 800, 200, 50)
     titlebg = pygame.Rect(765, 250, 400, 110)
-    while menu:
+    while True:
         screen.fill((127, 127, 127))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -265,26 +264,29 @@ async def main():
 #-------------------------------
 
 while True:
-    difficulty = asyncio.run(main_menu())
+    while True:
+        difficulty = asyncio.run(main_menu())
 
-    if difficulty=="easy":
-        grid_length = 9
-        grid_height = 9
-        num_mines = 10
-        tilesize = 64
+        if difficulty=="easy":
+            grid_length = 9
+            grid_height = 9
+            num_mines = 10
+            tilesize = 64
+            break
 
-    elif difficulty=="medium":
-        grid_length = 16
-        grid_height = 16
-        num_mines = 40
-        tilesize = 32
-
-    elif difficulty=="hard":
-        grid_length = 22
-        grid_height = 22
-        num_mines = 99
-        tilesize = 28
-    
+        elif difficulty=="medium":
+            grid_length = 16
+            grid_height = 16
+            num_mines = 40
+            tilesize = 32
+            break
+        elif difficulty=="hard":
+            grid_length = 22
+            grid_height = 22
+            num_mines = 99
+            tilesize = 28
+            break
+        
     empty = pygame.transform.scale(b, (tilesize, tilesize))
     unknown = pygame.transform.scale(unknown, (tilesize, tilesize))
     flag = pygame.transform.scale(flag, (tilesize, tilesize))
