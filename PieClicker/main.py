@@ -297,20 +297,3 @@ async def main():
     pygame.quit()
 
 asyncio.run(main())
-
-
-
-
-
-
-
-
-
-
-
-
-
-#tiers  
-# Common -  Apple, Lemon, Blueberry, Cherry, Pumpkin
-# Rare -  Peach, Pecan, Coconut, Blackberry, Watermelon
-# Exotic - Pineapple on, Jelly Bean, Lollipop, Donut, Pie
