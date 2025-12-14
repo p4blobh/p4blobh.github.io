@@ -1,13 +1,10 @@
 import pygame
 import asyncio
 import random
-from screeninfo import get_monitors
 pygame.init()
 
-screen_info = get_monitors()
-
-screen_width = screen_info[0].width
-screen_height = screen_info[0].height
+screen_width = 1920
+screen_height = 1200
 
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Minesweeper")
@@ -162,10 +159,10 @@ class grid:
 
 async def main_menu():
     mainmenu = True
-    easyBtn = pygame.Rect(screen_width * 0.45, screen_height * 0.5, screen_width * 0.1, screen_height * 0.042)
-    mediumBtn = pygame.Rect(screen_width * 0.45, screen_height * 0.583, screen_width * 0.1, screen_height * 0.042)
-    hardBtn = pygame.Rect(screen_width * 0.45, screen_height * 0.667, screen_width * 0.1, screen_height * 0.042)
-    titlebg = pygame.Rect(screen_width * 0.4, screen_height * 0.208, screen_width * 0.2, screen_height * 0.092)
+    easyBtn = pygame.Rect(860, 600, 200, 50)
+    mediumBtn = pygame.Rect(860, 700, 200, 50)
+    hardBtn = pygame.Rect(860, 800, 200, 50)
+    titlebg = pygame.Rect(765, 250, 400, 110)
     while mainmenu:
         screen.fill((127, 127, 127))
         for event in pygame.event.get():
