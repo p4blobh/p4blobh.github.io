@@ -224,6 +224,9 @@ async def main(): #need to add mobile compatibility
                 pygame.quit()
                 quit()
 
+            if event.type == pygame.FINGERDOWN:
+                return True #testing
+            
             if event.type == pygame.MOUSEBUTTONDOWN:
                 
                 mx, my = pygame.mouse.get_pos()
