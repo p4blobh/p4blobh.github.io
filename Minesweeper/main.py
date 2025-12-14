@@ -224,7 +224,7 @@ async def main(): #need to add mobile compatibility
                 pygame.quit()
                 quit()
 
-            if event.type == pygame.FINGERDOWN:
+            if event.type == pygame.FINGERDOWN or event.type == pygame.FINGERMOTION or event.type == pygame.FINGERUP:
                 return True #testing
             
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -249,7 +249,33 @@ async def main(): #need to add mobile compatibility
                                         tile.image = wrongflag
                                     elif tile.type == "x":
                                         tile.revealed = True
-                            return False
+                            
+                            lose = True
+                            while lose:
+                                screen.fill((127,127,127))
+                                Grid.draw(screen)
+                                screen.blit(flagicon, (screen_width//1.7 - flagicon.get_width()//1.7, 50))
+                                screen.blit(clockicon, (screen_width//2.3 - clockicon.get_width(), 50))
+                                screen.blit(flagslefttxt, (screen_width//1.7 + 70 , 70))
+                                screen.blit(timetxt, (screen_width//2.3 + 50 , 70))
+
+                                lose_text = bigfont.render("YOU HAVE LOST!", True, (222, 53, 38))
+                                screen.blit(lose_text, (screen_width//2 - lose_text.get_width()//2, screen_height//2 - lose_text.get_height()//2))
+
+                                againbtn = pygame.Rect(screen_width//2 - 100, screen_height//2 + 100, 250, 100)
+                                pygame.draw.rect(screen, (9, 80, 214), againbtn)
+                                again_text = difffont.render("TRY AGAIN?", True, (0,0,0))
+                                screen.blit(again_text, (againbtn.x + againbtn.width//2 - again_text.get_width()//2, againbtn.y + againbtn.height//2 - again_text.get_height()//2))
+                                if againbtn.collidepoint(mouse_pos):
+                                    if pygame.mouse.get_pressed()[0]:
+                                        return False
+                                
+
+                                pygame.display.flip()
+                                await asyncio.sleep(0)      
+                                clock.tick(10)
+        
+
                             
                 if event.button == 3:
                     if not Grid.grid_list[mx][my].revealed:
@@ -352,29 +378,8 @@ async def loop():
                 await asyncio.sleep(0)      
                 clock.tick(10)
         else:
-            lose = True
-            while lose:
-                screen.fill((127, 127, 127))
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        pygame.quit()
-                        quit()
-                lose_text = bigfont.render("YOU HAVE LOST!", True, (222, 53, 38))
-                screen.blit(lose_text, (screen_width//2 - lose_text.get_width()//2, screen_height//2 - lose_text.get_height()//2))
-
-                againbtn = pygame.Rect(screen_width//2 - 100, screen_height//2 + 100, 250, 100)
-                pygame.draw.rect(screen, (9, 80, 214), againbtn)
-                again_text = difffont.render("TRY AGAIN?", True, (0,0,0))
-                screen.blit(again_text, (againbtn.x + againbtn.width//2 - again_text.get_width()//2, againbtn.y + againbtn.height//2 - again_text.get_height()//2))
+            continue
+            
                 
-                mouse_pos = pygame.mouse.get_pos()
-                if againbtn.collidepoint(mouse_pos):
-                    if pygame.mouse.get_pressed()[0]:
-                        lose = False
-
-                pygame.display.flip()
-                await asyncio.sleep(0)      
-                clock.tick(10)
-        
 
 asyncio.run(loop())
