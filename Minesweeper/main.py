@@ -117,7 +117,7 @@ class grid:
                 if self.inside_grid(neighbour_x, neighbour_y) and self.grid_list[neighbour_x][neighbour_y].type == "x":
                     total += 1
         return total
-     
+      
     def draw(self, screen):
         for row in self.grid_list:
             for tile in row:
@@ -142,11 +142,10 @@ class grid:
                 if (row,col) not in self.dug:
                     self.dig(row,col)
         return True
-        
-
-    def display(self):
-        for row in self.grid_list:
-            print(row)
+    
+    # def display(self):                    This is just for testing in console, is not necessary
+    #     for row in self.grid_list:           if ever testing, make sure to also uncomment grid.display() in the main loop
+    #         print(row)
 
 #-------------------------------
 #--------- Main Menu ----------#
@@ -210,8 +209,8 @@ def checkforwin():
                     return False
     return True
 
-async def main():
-    Grid.display()
+async def main(): #need to add timer, flag counter, and mobile compatibility
+    #Grid.display()     for testing, also uncomment grid.display in class if testing
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -267,7 +266,7 @@ async def main():
 
 #-------------------------------
 
-async def loop():
+async def loop(): #figure out better sizes for the tile - also change the offset in grid class to be better
     global empty, unknown, flag, mine, explode, wrongflag
     global b1, b2, b3, b4, b5, b6, b7, b8
     global numbers, Grid
@@ -280,19 +279,19 @@ async def loop():
             grid_length = 9
             grid_height = 9
             num_mines = 10
-            tilesize = 64
+            tilesize = 128
             menu = False
         elif difficulty=="medium":
             grid_length = 16
             grid_height = 16
             num_mines = 40
-            tilesize = 32
+            tilesize = 64
             menu = False
         elif difficulty=="hard":
             grid_length = 22
             grid_height = 22
             num_mines = 99
-            tilesize = 28
+            tilesize = 50
             menu = False
         
 
@@ -316,7 +315,7 @@ async def loop():
         if await main() == True:
             print("You win")
         else:
-            print("You lose")
+            print("You lose")      #need to add actual screens for win/lose
         
 
 asyncio.run(loop())
