@@ -30,6 +30,8 @@ diff = menufont.render("SELECT DIFFICULTY", True, (0, 0, 0))
 easy_text = difffont.render("EASY", True, (0, 0, 0))
 medium_text = difffont.render("MEDIUM", True, (0, 0, 0))
 hard_text = difffont.render("HARD", True, (0, 0, 0))
+win_text = menufont.render("YOU HAVE WON IN ", True, (0, 0, 0))
+
 
 #-------------------------------
 #---------- assets ------------#
@@ -46,9 +48,11 @@ b6 = pygame.image.load("assets/b6.png")
 b7 = pygame.image.load("assets/b7.png")
 b8 = pygame.image.load("assets/b8.png")
 flag = pygame.image.load("assets/flag.png")
+flagicon = pygame.transform.scale(flag, (100, 100))
 bomb = pygame.image.load("assets/bomb.png")
 boom = pygame.image.load("assets/boom.png")
 wrong = pygame.image.load("assets/wrong.png")
+clockicon = pygame.image.load("assets/clock.png")
 
 #-------------------------------
 #----------- Set Up -----------#
@@ -78,7 +82,7 @@ class grid:
         self.grid_surface = pygame.Surface((grid_length*tilesize, grid_height*tilesize))
         self.grid_list = [[tile(col,row,empty, ".") for row in range(grid_length)] for col in range(grid_height)] 
         self.offset = ((screen_width - self.grid_surface.get_width()) // 2,
-                       (screen_height - self.grid_surface.get_height()) // 2)
+                       int((screen_height - self.grid_surface.get_height()) // 1.2))
         self.place_mines()
         self.place_numbers()
         self.dug = []
@@ -193,7 +197,7 @@ async def main_menu():
         screen.blit(easy_text, (easyBtn.x + easyBtn.width//2 - easy_text.get_width()//2, easyBtn.y + easyBtn.height//2 - easy_text.get_height()//2))
         screen.blit(medium_text, (mediumBtn.x + mediumBtn.width//2 - medium_text.get_width()//2, mediumBtn.y + mediumBtn.height//2 - medium_text.get_height()//2))
         screen.blit(hard_text, (hardBtn.x + hardBtn.width//2 - hard_text.get_width()//2, hardBtn.y + hardBtn.height//2 - hard_text.get_height()//2))
-        screen.blit(flag, (920,375))
+        screen.blit(flagicon, (920,375))
 
         pygame.display.flip()
         await asyncio.sleep(0)      
@@ -253,6 +257,9 @@ async def main(): #need to add timer, flag counter, and mobile compatibility
                         tile.flagged = True
             return True
         screen.fill((77, 77, 77))
+        screen.blit(flagicon, (screen_width//1.7 - flagicon.get_width()//1.7, 50))
+        screen.blit(clockicon, (screen_width//2.3 - clockicon.get_width(), 50))
+
 
         
         Grid.draw(screen)
@@ -279,21 +286,16 @@ async def loop(): #figure out better sizes for the tile - also change the offset
             grid_length = 9
             grid_height = 9
             num_mines = 10
-            tilesize = 128
-            menu = False
         elif difficulty=="medium":
             grid_length = 16
             grid_height = 16
             num_mines = 40
-            tilesize = 64
-            menu = False
         elif difficulty=="hard":
             grid_length = 22
             grid_height = 22
             num_mines = 99
-            tilesize = 50
-            menu = False
         
+        tilesize = min(screen_width // grid_length, (screen_height-(screen_height//6)) // grid_height)
 
         empty = pygame.transform.scale(b, (tilesize, tilesize))
         unknown = pygame.transform.scale(unknown, (tilesize, tilesize))
@@ -313,7 +315,18 @@ async def loop(): #figure out better sizes for the tile - also change the offset
         Grid = grid()
         
         if await main() == True:
-            print("You win")
+            win = True
+            while win:
+                screen.fill((127, 127, 127))
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        quit()
+
+
+                pygame.display.flip()
+                await asyncio.sleep(0)      
+                clock.tick(50)
         else:
             print("You lose")      #need to add actual screens for win/lose
         
