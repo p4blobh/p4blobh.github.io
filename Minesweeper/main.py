@@ -363,7 +363,7 @@ async def loop():
             win_text = bigfont.render(f"YOU HAVE WON", True, (16, 125, 38))
             win_textpt2 = bigfont.render(f"{difficulty} DIFFICULTY", True, (16, 125, 38))
             win_textpt3 = bigfont.render(f"IN {time//1000:03} SECONDS!", True, (16, 125, 38))
-            endbox = pygame.Rect(screen_width//2 - 300, screen_height//2 - 140, 600, 500)
+            endbox = pygame.Rect(screen_width//2 - 250, screen_height//2 - 140, 700, 500)
             againbtn = pygame.Rect(screen_width//2 - 100, screen_height//2 + 225, 250, 100)
 
         if lose == True:
