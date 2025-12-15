@@ -31,7 +31,8 @@ diff = menufont.render("SELECT DIFFICULTY", True, (0, 0, 0))
 easy_text = difffont.render("EASY", True, (0, 0, 0))
 medium_text = difffont.render("MEDIUM", True, (0, 0, 0))
 hard_text = difffont.render("HARD", True, (0, 0, 0))
-win_text = menufont.render("YOU HAVE WON IN ", True, (0, 0, 0))
+lose_text = bigfont.render("YOU HAVE LOST!", True, (222, 53, 38))
+again_text = difffont.render("TRY AGAIN?", True, (0,0,0))
 
 
 #-------------------------------
@@ -167,26 +168,21 @@ async def main_menu():
     while mainmenu:
         screen.fill((127, 127, 127))
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    mouse_pos = pygame.mouse.get_pos()
+
+                    if easyBtn.collidepoint(mouse_pos):
+                            mainmenu = False
+                            return "EASY"
+                    if mediumBtn.collidepoint(mouse_pos):
+                            mainmenu = False
+                            return "MEDIUM"
+                    if hardBtn.collidepoint(mouse_pos):
+                            mainmenu = False
+                            return "HARD"
 
         
-
-        mouse_pos = pygame.mouse.get_pos()
-
-        if easyBtn.collidepoint(mouse_pos):
-            if pygame.mouse.get_pressed()[0]:
-                mainmenu = False
-                return "EASY"
-        if mediumBtn.collidepoint(mouse_pos):
-            if pygame.mouse.get_pressed()[0]:
-                mainmenu = False
-                return "MEDIUM"
-        if hardBtn.collidepoint(mouse_pos):
-            if pygame.mouse.get_pressed()[0]:
-                mainmenu = False
-                return "HARD"
         
         pygame.draw.rect(screen, (9, 80, 214), easyBtn)
         pygame.draw.rect(screen, (9, 80, 214), mediumBtn)
@@ -214,21 +210,14 @@ def checkforwin():
                     return False
     return True
 
-async def main(): #need to add mobile compatibility
+async def main():
     #Grid.display()     for testing, also uncomment grid.display in class if testing
     global time
+    global flagslefttxt, timetxt
     time = 0
     while True:
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
-
-            if event.type == pygame.FINGERDOWN or event.type == pygame.FINGERMOTION or event.type == pygame.FINGERUP:
-                return True #testing
-            
             if event.type == pygame.MOUSEBUTTONDOWN:
-                
                 mx, my = pygame.mouse.get_pos()
                 mx = (mx - Grid.offset[0]) // tilesize
                 my = (my - Grid.offset[1]) // tilesize
@@ -237,7 +226,6 @@ async def main(): #need to add mobile compatibility
                     continue
                 if not Grid.inside_grid(mx, my):
                     continue
-
                 if event.button == 1:
                     if not Grid.grid_list[mx][my].flagged:
                         if not Grid.dig(mx, my):
@@ -250,33 +238,29 @@ async def main(): #need to add mobile compatibility
                                     elif tile.type == "x":
                                         tile.revealed = True
                             
-                            lose = True
-                            while lose:
-                                screen.fill((127,127,127))
-                                Grid.draw(screen)
-                                screen.blit(flagicon, (screen_width//1.7 - flagicon.get_width()//1.7, 50))
-                                screen.blit(clockicon, (screen_width//2.3 - clockicon.get_width(), 50))
-                                screen.blit(flagslefttxt, (screen_width//1.7 + 70 , 70))
-                                screen.blit(timetxt, (screen_width//2.3 + 50 , 70))
-
-                                lose_text = bigfont.render("YOU HAVE LOST!", True, (222, 53, 38))
-                                screen.blit(lose_text, (screen_width//2 - lose_text.get_width()//2, screen_height//2 - lose_text.get_height()//2))
-
-                                againbtn = pygame.Rect(screen_width//2 - 100, screen_height//2 + 100, 250, 100)
-                                pygame.draw.rect(screen, (9, 80, 214), againbtn)
-                                again_text = difffont.render("TRY AGAIN?", True, (0,0,0))
-                                screen.blit(again_text, (againbtn.x + againbtn.width//2 - again_text.get_width()//2, againbtn.y + againbtn.height//2 - again_text.get_height()//2))
-                                if againbtn.collidepoint(mouse_pos):
-                                    if pygame.mouse.get_pressed()[0]:
-                                        return False
-                                
-
-                                pygame.display.flip()
-                                await asyncio.sleep(0)      
-                                clock.tick(10)
-        
-
-                            
+                            return False
+                if event.button == 2:
+                    if Grid.grid_list[mx][my].revealed and Grid.grid_list[mx][my].type == "n":
+                        flagged_neighbors = sum(1 for dx in range(-1, 2) for dy in range(-1, 2) 
+                                               if Grid.inside_grid(mx + dx, my + dy) and Grid.grid_list[mx + dx][my + dy].flagged)
+                        tile_number = numbers.index(Grid.grid_list[mx][my].image) + 1
+                        if flagged_neighbors == tile_number:
+                            hit_bomb = False
+                            for dx in range(-1, 2):
+                                for dy in range(-1, 2):
+                                    if Grid.inside_grid(mx + dx, my + dy) and not Grid.grid_list[mx + dx][my + dy].flagged and not Grid.grid_list[mx + dx][my + dy].revealed:
+                                        if not Grid.dig(mx + dx, my + dy):
+                                            hit_bomb = True
+                            if hit_bomb:
+                                for row in Grid.grid_list:
+                                    for tile in row:
+                                        if tile.flagged and tile.type != "x":
+                                            tile.flagged = False
+                                            tile.revealed = True
+                                            tile.image = wrongflag
+                                        elif tile.type == "x":
+                                            tile.revealed = True
+                                return False
                 if event.button == 3:
                     if not Grid.grid_list[mx][my].revealed:
                         Grid.grid_list[mx][my].flagged = not Grid.grid_list[mx][my].flagged
@@ -288,6 +272,7 @@ async def main(): #need to add mobile compatibility
                     if not tile.revealed:
                         tile.flagged = True
             return True
+       
         screen.fill((77, 77, 77))
         screen.blit(flagicon, (screen_width//1.7 - flagicon.get_width()//1.7, 50))
         screen.blit(clockicon, (screen_width//2.3 - clockicon.get_width(), 50))
@@ -313,7 +298,7 @@ async def loop():
     global b1, b2, b3, b4, b5, b6, b7, b8
     global numbers, Grid
     global grid_length, grid_height, num_mines, tilesize
-
+    global difficulty
     while True:
         random.seed()
 
@@ -353,32 +338,73 @@ async def loop():
         
         if await main() == True:
             win = True
-            while win:
-                screen.fill((127, 127, 127))
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        pygame.quit()
-                        quit()
-                win_text = bigfont.render(f"YOU HAVE WON {difficulty} DIFFICULTY", True, (222, 53, 38))
-                win_textpt2 = bigfont.render(f"IN {time//1000:03} SECONDS!", True, (222, 53, 38))
-                screen.blit(win_text, (screen_width//2 - win_text.get_width()//2, screen_height//2 - win_text.get_height()//2))
-                screen.blit(win_textpt2, (screen_width//2 - win_textpt2.get_width()//2, screen_height//2 - win_textpt2.get_height()//2 + 80))   
-
-                againbtn = pygame.Rect(screen_width//2 - 100, screen_height//2 + 200, 250, 100)
-                pygame.draw.rect(screen, (9, 80, 214), againbtn)
-                again_text = difffont.render("PLAY AGAIN", True, (0,0,0))
-                screen.blit(again_text, (againbtn.x + againbtn.width//2 - again_text.get_width()//2, againbtn.y + againbtn.height//2 - again_text.get_height()//2))
-                
-                mouse_pos = pygame.mouse.get_pos()
-                if againbtn.collidepoint(mouse_pos):
-                    if pygame.mouse.get_pressed()[0]:
-                        win = False
-
-                pygame.display.flip()
-                await asyncio.sleep(0)      
-                clock.tick(10)
+            lose = False
         else:
-            continue
+            lose = True
+            win = False
+        
+        if win == True:
+            win_text = bigfont.render(f"YOU HAVE WON", True, (16, 125, 38))
+            win_textpt2 = bigfont.render(f"{difficulty} DIFFICULTY", True, (16, 125, 38))
+            win_textpt3 = bigfont.render(f"IN {time//1000:03} SECONDS!", True, (16, 125, 38))
+            endbox = pygame.Rect(screen_width//2 - 300, screen_height//2 - 140, 600, 500)
+            againbtn = pygame.Rect(screen_width//2 - 100, screen_height//2 + 225, 250, 100)
+
+        if lose == True:
+            endbox = pygame.Rect(screen_width//2 - 300, screen_height//2 - 200, 600, 400)
+            againbtn = pygame.Rect(screen_width//2 - 100, screen_height//2 + 80, 250, 100)
+        endboxborder = pygame.Rect(endbox.x - 10, endbox.y - 10, endbox.width + 20, endbox.height + 20)
+        open = True
+        xout = pygame.Rect(endbox.x + endbox.width - 40, endbox.y + 10, 30, 30)
+        ended = True
+
+        while ended:
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse_pos = pygame.mouse.get_pos()
+                    if event.button == 1:
+
+                        if open == True:
+                            if xout.collidepoint(mouse_pos):
+                                againbtn = pygame.Rect(screen_width//6 - 150, screen_height//2 + 100, 250, 100)
+                                open = False
+                            elif againbtn.collidepoint(mouse_pos):
+                                ended = False
+                        else:
+                            if againbtn.collidepoint(mouse_pos):
+                                ended = False
+
+            screen.fill((77, 77, 77))
+            Grid.draw(screen)
+            screen.blit(flagicon, (screen_width//1.7 - flagicon.get_width()//1.7, 50))
+            screen.blit(clockicon, (screen_width//2.3 - clockicon.get_width(), 50))
+            screen.blit(flagslefttxt, (screen_width//1.7 + 70 , 70))
+            screen.blit(timetxt, (screen_width//2.3 + 50 , 70))
+
+            if open == True:
+                
+                pygame.draw.rect(screen, (0,0,0), endboxborder)
+                pygame.draw.rect(screen, (127,127,127), endbox)
+                pygame.draw.rect(screen, (222, 53, 38), xout)
+
+                if win == True:
+                    screen.blit(win_text, (screen_width//2 - win_text.get_width()//2, screen_height//2 - win_text.get_height()//2))
+                    screen.blit(win_textpt2, (screen_width//2 - win_textpt2.get_width()//2, screen_height//2 - win_textpt2.get_height()//2 + 80))
+                    screen.blit(win_textpt3, (screen_width//2 - win_textpt3.get_width()//2, screen_height//2 - win_textpt3.get_height()//2 + 160))  
+
+                if lose == True:
+                    screen.blit(lose_text, (screen_width//2 - lose_text.get_width()//2, screen_height//2 - lose_text.get_height()//2))
+                
+                pygame.draw.rect(screen, (9, 80, 214), againbtn)
+                screen.blit(again_text, (againbtn.x + againbtn.width//2 - again_text.get_width()//2, againbtn.y + againbtn.height//2 - again_text.get_height()//2))
+
+            else: 
+                pygame.draw.rect(screen, (9, 80, 214), againbtn)
+                screen.blit(again_text, (againbtn.x + againbtn.width//2 - again_text.get_width()//2, againbtn.y + againbtn.height//2 - again_text.get_height()//2))
+        
+            pygame.display.flip()
+            await asyncio.sleep(0)
+            clock.tick(10)
             
                 
 
