@@ -58,9 +58,9 @@ bomb = pygame.image.load("assets/bomb.png")
 boom = pygame.image.load("assets/boom.png")
 wrong = pygame.image.load("assets/wrong.png")
 clockicon = pygame.image.load("assets/clock.png")
-Lmouse = pygame.image.load("assets/LMouse.png")
-Rmouse = pygame.image.load("assets/RMouse.png")
-Mmouse = pygame.image.load("assets/MMouse.png")
+Lmouse = pygame.image.load("assets/Lmouse.png")
+Rmouse = pygame.image.load("assets/Rmouse.png")
+Mmouse = pygame.image.load("assets/Mmouse.png")
 
 #-------------------------------
 #----------- Set Up -----------#
@@ -288,12 +288,12 @@ async def main():
         timetxt = bigfont.render(f"{time//1000:03}", True, (222, 53, 38))
         screen.blit(timetxt, (screen_width//2.3 + 50 , 70))
 
-        screen.blit(Lmouse, (screen_width//6 - 50, screen_height - 600))
-        screen.blit(lmousetxt, (screen_width//6 - 150, screen_height - 590))
-        screen.blit(Rmouse, (screen_width//6 - 50, screen_height - 500))
-        screen.blit(rmousetxt, (screen_width//2 - 150, screen_height - 490))
-        screen.blit(Mmouse, (screen_width//6 - 50, screen_height - 400))
-        screen.blit(mmousetxt, (screen_width//6 - 150, screen_height - 390))
+        screen.blit(Lmouse, (screen_width//6 - 150, screen_height - 600))
+        screen.blit(lmousetxt, (screen_width//6 - 50, screen_height - 590))
+        screen.blit(Rmouse, (screen_width//6 - 150, screen_height - 500))
+        screen.blit(rmousetxt, (screen_width//2 - 50, screen_height - 490))
+        screen.blit(Mmouse, (screen_width//6 - 150, screen_height - 400))
+        screen.blit(mmousetxt, (screen_width//6 - 50, screen_height - 390))
 
         
         Grid.draw(screen)
