@@ -22,6 +22,7 @@ roboto =("assets/Roboto.ttf")
 bigfont = pygame.font.Font(roboto, 72)
 menufont = pygame.font.Font(roboto, 48)
 difffont = pygame.font.Font(roboto, 36)
+tutorialfont = pygame.font.Font(roboto, 32)
 
 #-------------------------------
 #----------- Text -------------#
@@ -33,9 +34,9 @@ medium_text = difffont.render("MEDIUM", True, (0, 0, 0))
 hard_text = difffont.render("HARD", True, (0, 0, 0))
 lose_text = bigfont.render("YOU HAVE LOST!", True, (222, 53, 38))
 again_text = difffont.render("TRY AGAIN?", True, (0,0,0))
-lmousetxt = difffont.render("LEFT CLICK: REVEAL TILE", True, (0,0,0))
-rmousetxt = difffont.render("RIGHT CLICK: FLAG/UNFLAG TILE", True, (0,0,0))
-mmousetxt = difffont.render("MIDDLE CLICK: REVEAL NEIGHBORS", True, (0,0,0))
+lmousetxt = tutorialfont.render("REVEAL TILE", True, (0,0,0))
+rmousetxt = tutorialfont.render("FLAG/UNFLAG TILE", True, (0,0,0))
+mmousetxt = tutorialfont.render("REVEAL NEIGHBOURS", True, (0,0,0))
 
 
 #-------------------------------
@@ -110,7 +111,7 @@ class grid:
         for x in range(grid_length):
             for y in range(grid_height):
                 if self.grid_list[x][y].type != "x":
-                    total = self.check_neighbors(x, y)
+                    total = self.check_neighbours(x, y)
                     if total > 0:
                         self.grid_list[x][y].image = numbers[total-1]
                         self.grid_list[x][y].type = "n"
@@ -120,7 +121,7 @@ class grid:
     def inside_grid(x, y): 
         return 0 <= x < grid_length and 0 <= y < grid_height
 
-    def check_neighbors(self, x, y):
+    def check_neighbours(self, x, y):
         total = 0
         for dx in range(-1, 2):
             for dy in range(-1, 2):
@@ -247,10 +248,10 @@ async def main():
                             return False
                 if event.button == 2:
                     if Grid.grid_list[mx][my].revealed and Grid.grid_list[mx][my].type == "n":
-                        flagged_neighbors = sum(1 for dx in range(-1, 2) for dy in range(-1, 2) 
+                        flagged_neighbours = sum(1 for dx in range(-1, 2) for dy in range(-1, 2) 
                                                if Grid.inside_grid(mx + dx, my + dy) and Grid.grid_list[mx + dx][my + dy].flagged)
                         tile_number = numbers.index(Grid.grid_list[mx][my].image) + 1
-                        if flagged_neighbors == tile_number:
+                        if flagged_neighbours == tile_number:
                             hit_bomb = False
                             for dx in range(-1, 2):
                                 for dy in range(-1, 2):
@@ -269,7 +270,8 @@ async def main():
                                 return False
                 if event.button == 3:
                     if not Grid.grid_list[mx][my].revealed:
-                        Grid.grid_list[mx][my].flagged = not Grid.grid_list[mx][my].flagged
+                        if Grid.grid_list[mx][my].flagged or sum(tile.flagged for row in Grid.grid_list for tile in row) < num_mines:
+                            Grid.grid_list[mx][my].flagged = not Grid.grid_list[mx][my].flagged
         
         
         if checkforwin() == True:
@@ -288,12 +290,12 @@ async def main():
         timetxt = bigfont.render(f"{time//1000:03}", True, (222, 53, 38))
         screen.blit(timetxt, (screen_width//2.3 + 50 , 70))
 
-        screen.blit(Lmouse, (screen_width//6 - 150, screen_height - 600))
-        screen.blit(lmousetxt, (screen_width//6 - 50, screen_height - 590))
-        screen.blit(Rmouse, (screen_width//6 - 150, screen_height - 500))
-        screen.blit(rmousetxt, (screen_width//2 - 50, screen_height - 490))
-        screen.blit(Mmouse, (screen_width//6 - 150, screen_height - 400))
-        screen.blit(mmousetxt, (screen_width//6 - 50, screen_height - 390))
+        screen.blit(Lmouse, (screen_width//6 - 300, screen_height - 650))
+        screen.blit(lmousetxt, (screen_width//6 - 200, screen_height - 640))
+        screen.blit(Rmouse, (screen_width//6 - 300, screen_height - 550))
+        screen.blit(rmousetxt, (screen_width//6 - 200, screen_height - 540))
+        screen.blit(Mmouse, (screen_width//6 - 300, screen_height - 450))
+        screen.blit(mmousetxt, (screen_width//6 - 200, screen_height - 440))
 
         
         Grid.draw(screen)
