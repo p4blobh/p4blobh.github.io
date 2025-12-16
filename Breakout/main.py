@@ -16,7 +16,7 @@ clock = pygame.time.Clock()
 #----------- Fonts ------------#
 #-------------------------------
 
-blockyfont = ("font/BoldPixels.ttf")
+blockyfont = ("assets/BoldPixels.ttf")
 
 bigfont = pygame.font.Font(blockyfont, 72)
 smallerfont = pygame.font.Font(blockyfont, 46)
@@ -197,10 +197,12 @@ async def loop():
         player = paddle()
 
         while running:
+            keypressed = False
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
-            
+                if event.type == pygame.KEYDOWN:
+                    keypressed = True
             screen.fill((0,0,0))
             scoretxt = bigfont.render(f"{score:04}", True, (255, 255, 255))
             screen.blit(scoretxt, (screen_width//4 - scoretxt.get_width()//2, 10))
@@ -215,8 +217,7 @@ async def loop():
                 if firsttime:
                     screen.blit(instructions, (screen_width//2 - instructions.get_width()//2, screen_height//1.5 - instructions.get_height()//2))
                 if time >= buffer:
-                    keys = pygame.key.get_pressed()
-                    if any(keys):
+                    if keypressed == True:
                         presstostart = False
                         firsttime = False
                         ball1 = ball(player.rect.x + player.width // 2, player.rect.y - 20)
@@ -235,7 +236,7 @@ async def loop():
 
 
 
-
+            
             pygame.display.flip()
             clock.tick(60)
             await asyncio.sleep(0)
