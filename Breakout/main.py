@@ -251,7 +251,7 @@ async def loop(): #this is the main game loop which is always active
                     pt2 = True
                 if pt2 == True and (keys[pygame.K_e]): 
                     pt3 = True
-                if pt3 == True and (keys[pygame.K_RETURN]): 
+                if pt3 == True and (keys[pygame.K_RETURN]) or (keys[pygame.K_KP_ENTER]): 
                     cheat = True
 
                 if event.type == pygame.KEYDOWN:
