@@ -1,84 +1,97 @@
 <!DOCTYPE html>
 <html>
-<body style= "background-color:#24292e;">
+<body style="background-color:#24292e">
 <style>
 
-	.pieclickerbut {
-position: absolute;
-top: 190px;
-left: 0px;
-background-color: rgb(74, 69, 69);
-padding: 10px;
-width: 340px;
-height: 50px;
-	}
-div {
-	display: flex;
-	justify-content: center;
-		}
-.minesweeperbut {
-position: absolute;
-top: 190px;
-left: 0px;
-background-color: rgb(74, 69, 69);
-padding: 10px;
-width: 340px;
-height: 50px;
-	}
-.breakoutbut {
-position: absolute;
-top: 190px;
-left: 0px;
-background-color: rgb(74, 69, 69);
-padding: 10px;
-width: 340px;
-height: 50px;
+	html, body {
+  overflow: hidden;
 }
-.box {
-position: absolute;
-border: 5px solid #000000;
-padding: 19.1px;
-background-color: #0366d6;
-width: 300px;
-height: 200px;
-margin: 20px;
+	.button {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		background-color: rgb(74, 69, 69);
+		padding: 1%;
+		width: 100.8%;
+		height: 25.5%;
+		font-family: Verdana, Tahoma, sans-serif;
+		font-size: 84%;
 	}
-#pieclicker {
-	left:50px;
-	top:200px;
+	.container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-wrap: wrap;
+		width: 100vw;
+		gap: 2vh;
+		position: relative;
+		padding: 2vh;
+		box-sizing: border-box;
 	}
-#minesweeper {
-	left:450px;
-	top:200px;
+	.box {
+		position: relative;
+		box-sizing: border-box;
+		border: 0.75vh solid #000000;
+		padding: 2%;
+		background-color: #0366d6;
+		width: 35vh;
+		height: 30vh;
+		text-align: center;
+		
+	a {
+  text-decoration: none;
+  color:#fafbfc
+}
 	}
-#breakout {
-	left:850px;
-	top:200px;
+	
+	
+	@media (max-width: 10000px) {
+		.box {
+			width: 40vh;
+			height: 35vh;
+		}
+	}
+
+	@media (max-width: 800px) {
+		.box {
+			width: 30vh;
+			height: 25vh;
+		}
+	}
+
+	@media (max-width: 400px) {
+		.box {
+			width: 80vw;
+			height: 50vw;
+		}
 	}
 </style>
-  
+
 <center><h1 style="color:#fafbfc"><br>p4blobh's website</h1>
-  
-<p style="color:#fafbfc">Click on a button below to get started</p>
+<p style="color:#fafbfc">Click on a game below to get started!</p>
 </center>
 
+<div class="container">
 <a href="https://p4blobh.github.io/PieClicker/build/web">
-<div id="pieclicker" class="box">
-	<img src="/PieClicker/assets/PieClicker_logo.png" width ="300" height="150" title="Pie-Clicker">
+<div class="box">
+	<img src="/PieClicker/assets/PieClicker_logo.png" width="100%" height="80%" title="Pie-Clicker">
+	<button class="button"><a href="https://p4blobh.github.io/PieClicker/build/web"> Pie-Clicker</a></button>
+</div>
 </a>
-<button class="pieclickerbut"><a href="https://p4blobh.github.io/PieClicker/build/web"> Pie-Clicker</button></a></div>
 
 <a href="https://p4blobh.github.io/Minesweeper/build/web">
-<div id="minesweeper" class="box">
-	<img src="/Minesweeper/assets/flag.png" width ="160" height="160" title="Minesweeper">
+<div class="box">
+	<img src="/Minesweeper/assets/flag.png" width="60%" height="77%" title="Minesweeper">
+	<button class="button"><a href="https://p4blobh.github.io/Minesweeper/build/web"> Minesweeper</a></button>
+</div>
 </a>
-<button class="minesweeperbut"><a href="https://p4blobh.github.io/Minesweeper/build/web"> Minesweeper</button></a></div>
 
 <a href="https://p4blobh.github.io/Breakout/build/web">
-<div id="breakout" class="box">
-	<img src="/Breakout/assets/breakoutlogo.png" width ="170" height="160" title="Breakout"> 
+<div class="box">
+	<img src="/Breakout/assets/breakoutlogo.png" width="60%" height="77%" title="Breakout"> 
+	<button class="button"><a href="https://p4blobh.github.io/Breakout/build/web"> Breakout</a></button>
+</div>
 </a>
-<button class="breakoutbut"><a href="https://p4blobh.github.io/Breakout/build/web"> Breakout</button></a></div>
-
+</div>
 </body>
 </html>
