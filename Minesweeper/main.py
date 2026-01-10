@@ -334,7 +334,7 @@ async def loop(): #this is the loop which will never end
         elif difficulty=="HARD":
             grid_length = 22
             grid_height = 22
-            num_mines = 99
+            num_mines = 198
         
         tilesize = min(screen_width // grid_length, (screen_height-(screen_height//6)) // grid_height) 
         #^ SEts tilesize to the smallest number between the two calculations
